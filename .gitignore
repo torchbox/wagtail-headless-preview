@@ -1,0 +1,15 @@
+# Python
+*.pyc
+__pycache__
+venv/
+
+# IDEs and text editors
+*.sublime-project
+*.sublime-workspace
+.vscode
+.idea
+
+# Python packaging
+/build/
+/dist/
+wagtail_headless_preview.egg-info
