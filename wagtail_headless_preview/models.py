@@ -47,9 +47,23 @@ class HeadlessPreviewMixin:
             content_json=self.to_json(),
         )
 
+    def get_client_root_url(self):
+        # single client
+        try:
+            return settings.HEADLESS_PREVIEW_CLIENT_URL
+        except KeyError:
+            pass
+
+        # per-site clients
+        try:
+            return settings.HEADLESS_PREVIEW_CLIENT_URLS[self.get_site().hostname]
+        except KeyError:
+            return settings.HEADLESS_PREVIEW_CLIENT_URLS['default']
+
+
     @classmethod
     def get_preview_url(cls, token):
-        return f'{settings.PREVIEW_URL}?' + urllib.parse.urlencode({
+        return self.get_client_root_url() + '?' + urllib.parse.urlencode({
             'content_type': cls._meta.app_label + '.' + cls.__name__.lower(),
             'token': token,
         })

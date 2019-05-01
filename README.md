@@ -16,7 +16,31 @@ INSTALLED_APPS = [
 ]
 ```
 
-and configure `PREVIEW_URL` to point to your front-end URL.
+then configure the preview client URL.
+
+For a multi-site setup, you can use `HEADLESS_PREVIEW_CLIENT_URLS`:
+
+```python
+HEADLESS_PREVIEW_CLIENT_URLS = {
+    'default': 'http://localhost:8020/',
+    'site1.example.com': 'http://localhost:8020/',
+    'site2.example.com': 'http://localhost:8021/',
+}
+```
+
+For single sites, the configuration can be:
+
+```python
+HEADLESS_PREVIEW_CLIENT_URLS = {
+    'default': 'http://localhost:8020/',
+}
+```
+
+Alternatively, you can use `HEADLESS_PREVIEW_CLIENT_URL`:
+
+```python
+HEADLESS_PREVIEW_CLIENT_URL = 'http://localhost:8020/'
+```
 
 ## Usage
 
