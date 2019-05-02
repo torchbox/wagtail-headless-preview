@@ -1,5 +1,11 @@
 # Wagtail Headless Preview
 
+## Overview
+
+With Wagtail as the backend, and a separate app for the front-end (for example a single page React app), editors are no longer able to preview their changes. This is because the front-end is no longer within Wagtail's direct control. The preview data therefore needs to be exposed to the front-end app.
+
+This package enables previews for Wagtail pages when used in a headless setup by routing the preview to the specified front-end URL.
+
 ## Setup
 
 Install using pip:
@@ -57,7 +63,7 @@ This depends on your project, as it will be dictated by the requirements of your
 The following example uses a Wagtail API endpoint to access previews - 
 your app may opt to access page previews using [GraphQL](https://wagtail.io/blog/getting-started-with-wagtail-and-graphql/) instead.
 
-## Example
+### Example
 
 This example sets up an API endpoint which will return the preview for a page, and then displays that data on a simplified demo front-end app.
 
