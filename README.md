@@ -54,11 +54,11 @@ class MyWonderfulPage(HeadlessPreviewMixin, Page):
 
 This depends on your project, as it will be dictated by the requirements of your front-end app.
 
-For example, the demonstration below uses a wagtail api endpoint to access previews - your app may opt instead to access page previews using [GraphQL](https://wagtail.io/blog/getting-started-with-wagtail-and-graphql/).
+The following example uses a Wagtail api endpoint to access previews - your app may opt instead to access page previews using [GraphQL](https://wagtail.io/blog/getting-started-with-wagtail-and-graphql/).
 
-## Demonstration
+## Example
 
-This example sets up an api endpoint which will return the preview for a page, and then displays that data on a simplified demo front-end app.
+This example sets up an API endpoint which will return the preview for a page, and then displays that data on a simplified demo front-end app.
 
 * Add `wagtail.api.v2` to the installed apps:
 ```python
@@ -113,7 +113,7 @@ class PagePreviewAPIEndpoint(PagesAPIEndpoint):
 api_router.register_endpoint('page_preview', PagePreviewAPIEndpoint)
 ```
 
-* Register the the API URLs so Django can route requests into the API:
+* Register the API URLs so Django can route requests into the API:
 
 ```python
 # urls.py
@@ -131,7 +131,7 @@ urlpatterns = [
 
 For further information about configuring the wagtail API, refer to the [Wagtail API v2 Configuration Guide](https://docs.wagtail.io/en/stable/advanced_topics/api/v2/configuration.html)
 
-* Next, add a `client/index.html` file in your project root, which will access the API to display our preview:
+* Next, add a `client/index.html` file in your project root. This will query the API to display our preview:
 
 ```html
 <!DOCTYPE html>
@@ -160,7 +160,7 @@ For further information about configuring the wagtail API, refer to the [Wagtail
 
 
 * Install django-cors-headers: `pip install django-cors-headers`
-* Add CORS config to your settings file to allow the front-end to access the api
+* Add CORS config to your settings file to allow the front-end to access the API
 
 ```python
 CORS_ORIGIN_ALLOW_ALL = True
@@ -168,14 +168,11 @@ CORS_URLS_REGEX = r'^/api/v2/'
  ```
 
 * Start up your site as normal: `./manage.py runserver 0:8000`
-
-Now we can access the preview from our barebones demo front-end:
-
-* Serve `client/index.html` at `http://localhost:8020/`
+* Serve the front-end `client/index.html` at `http://localhost:8020/`
    - this can be done by running `python3 -m http.server 8020` from inside the client directory
 * From the wagtail admin interface, edit (or create) and preview a page that uses `HeadlessPreviewMixin`
 
-The resultant preview page should now show you the API response for the preview! 🎉
+The preview page should now show you the API response for the preview! 🎉
 
 This is where a real front-end would take over and display the preview as it would be seen on the live site.
 
