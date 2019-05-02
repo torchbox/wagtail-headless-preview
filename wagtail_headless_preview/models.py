@@ -48,13 +48,6 @@ class HeadlessPreviewMixin:
         )
 
     def get_client_root_url(self):
-        # single client
-        try:
-            return settings.HEADLESS_PREVIEW_CLIENT_URL
-        except KeyError:
-            pass
-
-        # per-site clients
         try:
             return settings.HEADLESS_PREVIEW_CLIENT_URLS[self.get_site().hostname]
         except KeyError:

@@ -16,9 +16,17 @@ INSTALLED_APPS = [
 ]
 ```
 
-then configure the preview client URL.
+then configure the preview client URL using the `HEADLESS_PREVIEW_CLIENT_URLS` setting.
 
-For a multi-site setup, you can use `HEADLESS_PREVIEW_CLIENT_URLS`:
+For single site, the configuration should look like:
+
+```python
+HEADLESS_PREVIEW_CLIENT_URLS = {
+    'default': 'http://localhost:8020/',
+}
+```
+
+For a multi-site setup, add each site as a separate entry:
 
 ```python
 HEADLESS_PREVIEW_CLIENT_URLS = {
@@ -28,19 +36,6 @@ HEADLESS_PREVIEW_CLIENT_URLS = {
 }
 ```
 
-For single sites, the configuration can be:
-
-```python
-HEADLESS_PREVIEW_CLIENT_URLS = {
-    'default': 'http://localhost:8020/',
-}
-```
-
-Alternatively, you can use `HEADLESS_PREVIEW_CLIENT_URL`:
-
-```python
-HEADLESS_PREVIEW_CLIENT_URL = 'http://localhost:8020/'
-```
 
 ## Usage
 
