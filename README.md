@@ -1,5 +1,11 @@
 # Wagtail Headless Preview
 
+## Overview
+
+With wagtail as the backend, and a separate app for the frontend (for example a single page react app), the editor will still need to see how the page will look when published. The frontend is no longer within wagtail's control, so the preview data/markup needs to be exposed to the frontend app.
+
+This package enables headless preview for a wagtail page when editing, displaying the preview via the specified frontend url.
+
 ## Setup
 
 Install using pip:
