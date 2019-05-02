@@ -2,9 +2,9 @@
 
 ## Overview
 
-With wagtail as the backend, and a separate app for the frontend (for example a single page react app), the editor will still need to see how the page will look when published. The frontend is no longer within wagtail's control, so the preview data/markup needs to be exposed to the frontend app.
+With Wagtail as the backend, and a separate app for the frontend (for example a single page React app), editors are no longer able to preview their changes. This is because the frontend is no longer within Wagtail's direct control. The preview data therefore needs to be exposed to the frontend app.
 
-This package enables headless preview for a wagtail page when editing, displaying the preview via the specified frontend url.
+This package enables previews for Wagtail pages when used in a headless setup by routing the preview to the specified frontend URL.
 
 ## Setup
 
@@ -60,7 +60,7 @@ class MyWonderfulPage(HeadlessPreviewMixin, Page):
 
 It depends on your project.
 
-For a quick test: 
+For a quick test:
 
 * Add `wagtail.api.v2` to the installed apps:
 ```python
@@ -161,14 +161,14 @@ For further details, refer to the [Wagtail API v2 Configuration Guide](https://d
 ```
 
 * Install django-cors-headers: `pip install django-cors-headers`
-* Add to your settings file 
+* Add to your settings file
 ```python
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_URLS_REGEX = r'^/api/v2/'
- ``` 
+ ```
 
 * Start up your site as normal: `./manage.py runserver 0:8000`
-* Set up `client/index.html` to be served at `http://localhost:8020/` - 
+* Set up `client/index.html` to be served at `http://localhost:8020/` -
   this can be done by running `python3 -m http.server 8020` from inside the client directory
 * Edit (or created) and preview a page that uses `HeadlessPreviewMixin`
 * The preview page should now show you the API response for the preview
