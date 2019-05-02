@@ -1,7 +1,6 @@
 import datetime
 import json
 import urllib
-import uuid
 
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
@@ -53,11 +52,13 @@ class HeadlessPreviewMixin:
         except KeyError:
             return settings.HEADLESS_PREVIEW_CLIENT_URLS['default']
 
-
     @classmethod
-    def get_preview_url(cls, token):
+    def get_content_type(cls):
+        return cls._meta.app_label + '.' + cls.__name__.lower()
+
+    def get_preview_url(self, token):
         return self.get_client_root_url() + '?' + urllib.parse.urlencode({
-            'content_type': cls._meta.app_label + '.' + cls.__name__.lower(),
+            'content_type': self.get_content_type_str(),
             'token': token,
         })
 
