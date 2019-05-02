@@ -2,9 +2,9 @@
 
 ## Overview
 
-With Wagtail as the backend, and a separate app for the frontend (for example a single page React app), editors are no longer able to preview their changes. This is because the frontend is no longer within Wagtail's direct control. The preview data therefore needs to be exposed to the frontend app.
+With Wagtail as the backend, and a separate app for the front-end (for example a single page React app), editors are no longer able to preview their changes. This is because the front-end is no longer within Wagtail's direct control. The preview data therefore needs to be exposed to the front-end app.
 
-This package enables previews for Wagtail pages when used in a headless setup by routing the preview to the specified frontend URL.
+This package enables previews for Wagtail pages when used in a headless setup by routing the preview to the specified front-end URL.
 
 ## Setup
 
