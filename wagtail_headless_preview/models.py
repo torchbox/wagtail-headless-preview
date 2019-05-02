@@ -53,7 +53,7 @@ class HeadlessPreviewMixin:
             return settings.HEADLESS_PREVIEW_CLIENT_URLS['default']
 
     @classmethod
-    def get_content_type(cls):
+    def get_content_type_str(cls):
         return cls._meta.app_label + '.' + cls.__name__.lower()
 
     def get_preview_url(self, token):
