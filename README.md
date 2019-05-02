@@ -54,7 +54,8 @@ class MyWonderfulPage(HeadlessPreviewMixin, Page):
 
 This depends on your project, as it will be dictated by the requirements of your front-end app.
 
-The following example uses a Wagtail api endpoint to access previews - your app may opt instead to access page previews using [GraphQL](https://wagtail.io/blog/getting-started-with-wagtail-and-graphql/).
+The following example uses a Wagtail API endpoint to access previews - 
+your app may opt to access page previews using [GraphQL](https://wagtail.io/blog/getting-started-with-wagtail-and-graphql/) instead.
 
 ## Example
 
