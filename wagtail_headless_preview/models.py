@@ -12,15 +12,19 @@ from django.shortcuts import get_object_or_404, render
 
 class PagePreview(models.Model):
     token = models.CharField(max_length=255, unique=True)
-    content_type = models.ForeignKey('contenttypes.ContentType', on_delete=models.CASCADE)
+    content_type = models.ForeignKey(
+        "contenttypes.ContentType", on_delete=models.CASCADE
+    )
     content_json = models.TextField()
     created_at = models.DateField(auto_now_add=True)
 
     def as_page(self):
         content = json.loads(self.content_json)
-        page_model = ContentType.objects.get_for_id(content['content_type']).model_class()
+        page_model = ContentType.objects.get_for_id(
+            content["content_type"]
+        ).model_class()
         page = page_model.from_json(self.content_json)
-        page.pk = content['pk']
+        page.pk = content["pk"]
         return page
 
     @classmethod
@@ -32,11 +36,14 @@ class PagePreview(models.Model):
 class HeadlessPreviewMixin:
     @classmethod
     def get_preview_signer(cls):
-        return TimestampSigner(salt='headlesspreview.token')
+        return TimestampSigner(salt="headlesspreview.token")
 
     def create_page_preview(self):
         if self.pk is None:
-            identifier = "parent_id=%d;page_type=%s" % (self.get_parent().pk, self._meta.label)
+            identifier = "parent_id=%d;page_type=%s" % (
+                self.get_parent().pk,
+                self._meta.label,
+            )
         else:
             identifier = "id=%d" % self.pk
 
@@ -50,26 +57,31 @@ class HeadlessPreviewMixin:
         try:
             return settings.HEADLESS_PREVIEW_CLIENT_URLS[self.get_site().hostname]
         except KeyError:
-            return settings.HEADLESS_PREVIEW_CLIENT_URLS['default']
+            return settings.HEADLESS_PREVIEW_CLIENT_URLS["default"]
 
     @classmethod
     def get_content_type_str(cls):
-        return cls._meta.app_label + '.' + cls.__name__.lower()
+        return cls._meta.app_label + "." + cls.__name__.lower()
 
     def get_preview_url(self, token):
-        return self.get_client_root_url() + '?' + urllib.parse.urlencode({
-            'content_type': self.get_content_type_str(),
-            'token': token,
-        })
+        return (
+            self.get_client_root_url()
+            + "?"
+            + urllib.parse.urlencode(
+                {"content_type": self.get_content_type_str(), "token": token}
+            )
+        )
 
     def serve_preview(self, request, mode_name):
         page_preview = self.create_page_preview()
         page_preview.save()
         PagePreview.garbage_collect()
 
-        return render(request, 'wagtail_headless_preview/preview.html', {
-            'preview_url': self.get_preview_url(page_preview.token),
-        })
+        return render(
+            request,
+            "wagtail_headless_preview/preview.html",
+            {"preview_url": self.get_preview_url(page_preview.token)},
+        )
 
     @classmethod
     def get_page_from_preview_token(cls, token):
@@ -79,6 +91,8 @@ class HeadlessPreviewMixin:
         cls.get_preview_signer().unsign(token)
 
         try:
-            return PagePreview.objects.get(content_type=content_type, token=token).as_page()
+            return PagePreview.objects.get(
+                content_type=content_type, token=token
+            ).as_page()
         except PagePreview.DoesNotExist:
             return
