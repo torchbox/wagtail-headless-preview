@@ -1,4 +1,4 @@
-# Wagtail Headless Preview
+# [Wagtail Headless Preview](https://pypi.org/project/wagtail-headless-preview/) [![PyPI](https://img.shields.io/pypi/v/wagtail-headless-preview.svg)](https://pypi.org/project/wagtail-headless-preview/)
 
 ## Overview
 
