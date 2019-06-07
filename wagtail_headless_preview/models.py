@@ -6,8 +6,7 @@ from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.core.signing import TimestampSigner
 from django.db import models
-from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import render
 
 
 class PagePreview(models.Model):
