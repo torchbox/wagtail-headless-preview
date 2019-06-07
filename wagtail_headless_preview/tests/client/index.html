@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Headless preview</title>
+    <script>
+        function go() {
+            var querystring = window.location.search.replace(/^\?/, '');
+            var params = {};
+            querystring.replace(/([^=&]+)=([^&]*)/g, function(m, key, value) {
+                params[decodeURIComponent(key)] = decodeURIComponent(value);
+            });
+
+            var apiUrl = 'http://localhost:8000/api/v2/page_preview/1/?content_type=' + encodeURIComponent(params['content_type']) + '&token=' + encodeURIComponent(params['token']) + '&format=json';
+            fetch(apiUrl).then(function(response) {
+                response.text().then(function(text) {
+                    document.body.innerText = text;
+                });
+            });
+        }
+    </script>
+</head>
+<body onload="go()"></body>
+</html>

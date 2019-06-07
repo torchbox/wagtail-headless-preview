@@ -22,7 +22,17 @@ setup(
     author="Matthew Westcott - POC, Karl Hobley",
     author_email="matthew.westcott@torchbox.com",
     license="BSD",
-    install_requires=["wagtail>=2.0"],
+    install_requires=[
+        "wagtail>=2.0"
+    ],
+
+    extras_require={
+        'testing': [
+            'tox',
+            'django-cors-headers'
+        ],
+    },
+
     classifiers=[
         "Development Status :: 4 - Beta",
         "Environment :: Web Environment",

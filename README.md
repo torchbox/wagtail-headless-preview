@@ -91,6 +91,7 @@ from rest_framework.response import Response
 # Create the router. "wagtailapi" is the URL namespace
 api_router = WagtailAPIRouter('wagtailapi')
 
+
 class PagePreviewAPIEndpoint(PagesAPIEndpoint):
     known_query_parameters = PagesAPIEndpoint.known_query_parameters.union(['content_type', 'token'])
 
