@@ -10,6 +10,11 @@ venv/
 .idea
 
 # Python packaging
-/build/
-/dist/
-wagtail_headless_preview.egg-info
+.Python
+build/
+dist/
+*.egg-info/
+*.egg
+
+
+.tox/
