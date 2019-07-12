@@ -7,7 +7,7 @@ from wagtail.api.v2.router import WagtailAPIRouter
 from wagtail_headless_preview.models import PagePreview
 
 # Create the router. "wagtailapi" is the URL namespace
-api_router = WagtailAPIRouter('wagtailapi')
+api_router = WagtailAPIRouter('wagtailapi_v2')
 
 
 class PagePreviewAPIEndpoint(PagesAPIEndpoint):
