@@ -1,7 +1,5 @@
 language: python
-python: "3.6"
-cache:
-  pip: true
+cache: pip
 
 # Use container-based infrastructure
 dist: xenial
@@ -15,15 +13,15 @@ matrix:
      python: 3.6
    - env: TOXENV=py36-django21-wagtail23
      python: 3.6
-   - env: TOXENV=py36-django20-wagtail24
+   - env: TOXENV=py35-django20-wagtail24
      python: 3.5
-   - env: TOXENV=py36-django20-wagtail23
+   - env: TOXENV=py35-django20-wagtail23
      python: 3.5
-   - env: TOXENV=py36-django20-wagtail22
+   - env: TOXENV=py35-django20-wagtail22
      python: 3.5
-   - env: TOXENV=py36-django20-wagtail21
+   - env: TOXENV=py35-django20-wagtail21
      python: 3.5
-   - env: TOXENV=py36-django20-wagtail20
+   - env: TOXENV=py35-django20-wagtail20
      python: 3.5
 
   allow_failures:
