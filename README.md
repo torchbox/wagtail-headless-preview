@@ -24,6 +24,12 @@ INSTALLED_APPS = [
 ]
 ```
 
+Run migrations:
+
+```sh
+$ ./manage.py migrate
+```
+
 then configure the preview client URL using the `HEADLESS_PREVIEW_CLIENT_URLS` setting.
 
 For single site, the configuration should look like:
@@ -44,12 +50,14 @@ HEADLESS_PREVIEW_CLIENT_URLS = {
 }
 ```
 
-Run migrations:
+Optionally, you can enable live preview functionality with the `HEADLESS_PREVIEW_LIVE` setting:
 
-```sh
-$ ./manage.py migrate
+```python
+# settings.py
+HEADLESS_PREVIEW_LIVE = True
 ```
 
+Note: Your front-end app must be set up for live preview, a feature that usually requires [Django Channels](https://github.com/django/channels/) or other WebSocket/async library. 
 
 ## Usage
 

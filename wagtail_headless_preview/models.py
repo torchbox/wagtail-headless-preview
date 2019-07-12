@@ -52,6 +52,15 @@ class HeadlessPreviewMixin:
             content_json=self.to_json(),
         )
 
+    def update_page_preview(self, token):
+        return PagePreview.objects.update_or_create(
+            token=token,
+            defaults={
+                "content_type": self.content_type,
+                "content_json": self.to_json(),
+            },
+        )
+
     def get_client_root_url(self):
         try:
             return settings.HEADLESS_PREVIEW_CLIENT_URLS[self.get_site().hostname]
@@ -71,10 +80,26 @@ class HeadlessPreviewMixin:
             )
         )
 
+    def dummy_request(self, original_request=None, **meta):
+        request = super(HeadlessPreviewMixin, self).dummy_request(
+            original_request=original_request, **meta
+        )
+        request.GET = request.GET.copy()
+        request.GET["live_preview"] = original_request.GET.get("live_preview")
+        return request
+
     def serve_preview(self, request, mode_name):
-        page_preview = self.create_page_preview()
-        page_preview.save()
-        PagePreview.garbage_collect()
+        if request.GET.get("live_preview"):
+            token = request.COOKIES.get("used-token")
+            page_preview, existed = self.update_page_preview(token)
+            PagePreview.garbage_collect()
+
+            from wagtail_headless_preview.signals import preview_update  # Imported locally as live preview is optional
+            preview_update.send(sender=HeadlessPreviewMixin, token=token)
+        else:
+            page_preview = self.create_page_preview()
+            page_preview.save()
+            PagePreview.garbage_collect()
 
         return render(
             request,
