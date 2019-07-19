@@ -64,7 +64,7 @@ class HeadlessPreviewMixin:
     def get_client_root_url(self):
         try:
             return settings.HEADLESS_PREVIEW_CLIENT_URLS[self.get_site().hostname]
-        except KeyError:
+        except (AttributeError, KeyError):
             return settings.HEADLESS_PREVIEW_CLIENT_URLS["default"]
 
     @classmethod
