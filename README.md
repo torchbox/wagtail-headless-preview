@@ -24,7 +24,7 @@ INSTALLED_APPS = [
 ]
 ```
 
-then configure the preview client URL using the `HEADLESS_PREVIEW_CLIENT_URLS` setting.
+Then configure the preview client URL using the `HEADLESS_PREVIEW_CLIENT_URLS` setting.
 
 For single site, the configuration should look like:
 
@@ -44,6 +44,11 @@ HEADLESS_PREVIEW_CLIENT_URLS = {
 }
 ```
 
+Finally, run Django's migrate command from your console:
+
+```console
+python manage.py migrate wagtail_headless_preview
+```
 
 ## Usage
 
