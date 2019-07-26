@@ -44,6 +44,12 @@ HEADLESS_PREVIEW_CLIENT_URLS = {
 }
 ```
 
+Run migrations:
+
+```sh
+$ ./manage.py migrate
+```
+
 
 ## Usage
 
@@ -173,6 +179,8 @@ For further information about configuring the wagtail API, refer to the [Wagtail
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_URLS_REGEX = r'^/api/v2/'
  ```
+ 
+and follow the rest of the [setup instructions for django-cors-headers](https://github.com/ottoyiu/django-cors-headers#setup).
 
 * Start up your site as normal: `./manage.py runserver 0:8000`
 * Serve the front-end `client/index.html` at `http://localhost:8020/`
