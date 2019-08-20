@@ -95,7 +95,10 @@ class HeadlessPreviewMixin:
             page_preview, existed = self.update_page_preview(token)
             PagePreview.garbage_collect()
 
-            from wagtail_headless_preview.signals import preview_update  # Imported locally as live preview is optional
+            from wagtail_headless_preview.signals import (
+                preview_update,
+            )  # Imported locally as live preview is optional
+
             preview_update.send(sender=HeadlessPreviewMixin, token=token)
         else:
             PagePreview.garbage_collect()

@@ -8,10 +8,9 @@ from wagtail.core import urls as wagtail_urls
 from wagtail_headless_preview.tests.testapp.api import api_router
 
 urlpatterns = [
-    url(r'^admin/', include(wagtailadmin_urls)),
-    url(r'^api/v2/', api_router.urls),
-
+    url(r"^admin/", include(wagtailadmin_urls)),
+    url(r"^api/v2/", api_router.urls),
     # For anything not caught by a more specific rule above, hand over to
     # Wagtail's serving mechanism
-    url(r'', include(wagtail_urls)),
+    url(r"", include(wagtail_urls)),
 ]

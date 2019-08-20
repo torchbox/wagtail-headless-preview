@@ -28,7 +28,7 @@ matrix:
     - env: TOXENV=py37-djangomaster-wagtail25
 
 install:
-  - pip install wheel flake8 isort
+  - pip install wheel flake8 isort black
   - pip install -e .[testing]
 
 before_script:
@@ -37,6 +37,7 @@ before_script:
 script:
   - flake8 wagtail_headless_preview
   - isort --check-only --diff --recursive wagtail_headless_preview
+  - black --check wagtail_headless_preview
   - cd wagtail_headless_preview/tests/client
   - nohup python3 -m http.server 8020 > /dev/null 2>&1 &
   - cd $TESTDIR
