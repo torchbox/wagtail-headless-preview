@@ -57,7 +57,7 @@ Optionally, you can enable live preview functionality with the `HEADLESS_PREVIEW
 HEADLESS_PREVIEW_LIVE = True
 ```
 
-Note: Your front-end app must be set up for live preview, a feature that usually requires [Django Channels](https://github.com/django/channels/) or other WebSocket/async library. 
+Note: Your front-end app must be set up for live preview, a feature that usually requires [Django Channels](https://github.com/django/channels/) or other WebSocket/async libraries. 
 
 ## Usage
 
