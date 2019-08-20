@@ -1,0 +1,65 @@
+[
+{
+    "pk": 1,
+    "model": "wagtailcore.page",
+    "fields": {
+        "title": "Root",
+        "numchild": 1,
+        "show_in_menus": false,
+        "live": true,
+        "depth": 1,
+        "content_type": [
+            "wagtailcore",
+            "page"
+        ],
+        "path": "0001",
+        "url_path": "/",
+        "slug": "root"
+    }
+},
+
+{
+    "pk": 2,
+    "model": "wagtailcore.page",
+    "fields": {
+        "title": "Home",
+        "numchild": 0,
+        "show_in_menus": false,
+        "live": true,
+        "depth": 2,
+        "content_type": ["wagtailcore", "page"],
+        "path": "00010001",
+        "url_path": "/home/",
+        "slug": "home"
+    }
+},
+
+{
+    "pk": 1,
+    "model": "wagtailcore.site",
+    "fields": {
+        "root_page": 2,
+        "hostname": "localhost",
+        "port": 80,
+        "is_default_site": true
+    }
+},
+
+{
+    "pk": 1,
+    "model": "auth.user",
+    "fields": {
+        "username": "horseman",
+        "first_name": "Headless",
+        "last_name": "Horseman",
+        "is_active": true,
+        "is_superuser": false,
+        "is_staff": true,
+        "groups": [
+        ],
+        "user_permissions": [],
+        "password": "md5$seasalt$1e9bf2bf5606aa5c39852cc30f0f6f22",
+        "email": "headless@horseman.dev"
+    }
+}
+]

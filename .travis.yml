@@ -1,0 +1,43 @@
+language: python
+cache: pip
+
+# Use container-based infrastructure
+dist: xenial
+sudo: false
+
+matrix:
+  include:
+   - env: TOXENV=py37-django22-wagtail25
+     python: 3.7
+   - env: TOXENV=py36-django21-wagtail24
+     python: 3.6
+   - env: TOXENV=py36-django21-wagtail23
+     python: 3.6
+   - env: TOXENV=py35-django20-wagtail24
+     python: 3.5
+   - env: TOXENV=py35-django20-wagtail23
+     python: 3.5
+   - env: TOXENV=py35-django20-wagtail22
+     python: 3.5
+   - env: TOXENV=py35-django20-wagtail21
+     python: 3.5
+   - env: TOXENV=py35-django20-wagtail20
+     python: 3.5
+
+  allow_failures:
+    - env: TOXENV=py37-djangomaster-wagtail25
+
+install:
+  - pip install wheel flake8 isort
+  - pip install -e .[testing]
+
+before_script:
+  - TESTDIR=$(pwd)
+
+script:
+  - flake8 wagtail_headless_preview
+  - isort --check-only --diff --recursive wagtail_headless_preview
+  - cd wagtail_headless_preview/tests/client
+  - nohup python3 -m http.server 8020 > /dev/null 2>&1 &
+  - cd $TESTDIR
+  - tox
