@@ -19,8 +19,8 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/torchbox/wagtail-headless-preview",
-    author="Matthew Westcott - POC, Karl Hobley",
-    author_email="matthew.westcott@torchbox.com",
+    author="Dan Braghis",
+    author_email="dan.braghis@torchbox.com",
     license="BSD",
     install_requires=[
         "wagtail>=2.0"
