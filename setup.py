@@ -22,17 +22,8 @@ setup(
     author="Dan Braghis",
     author_email="dan.braghis@torchbox.com",
     license="BSD",
-    install_requires=[
-        "wagtail>=2.0"
-    ],
-
-    extras_require={
-        'testing': [
-            'tox',
-            'django-cors-headers'
-        ],
-    },
-
+    install_requires=["wagtail>=2.0"],
+    extras_require={"testing": ["tox", "django-cors-headers"]},
     classifiers=[
         "Development Status :: 4 - Beta",
         "Environment :: Web Environment",
