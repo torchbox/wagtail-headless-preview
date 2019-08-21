@@ -110,7 +110,6 @@ class HeadlessPreviewMixin:
             page_preview.save()
 
         response_token = token or page_preview.token
-
         response = render(
             request,
             "wagtail_headless_preview/preview.html",
