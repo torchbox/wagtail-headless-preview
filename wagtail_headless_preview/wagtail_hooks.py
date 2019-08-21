@@ -7,7 +7,7 @@ from wagtail.core import hooks
 @hooks.register("insert_editor_js")
 def editor_js():
     if hasattr(settings, "HEADLESS_PREVIEW_LIVE") and settings.HEADLESS_PREVIEW_LIVE:
-        js_files = ["js/realtime_preview.js"]
+        js_files = ["js/live-preview.js"]
 
         return format_html_join(
             "\n",
