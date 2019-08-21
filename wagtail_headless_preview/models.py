@@ -46,11 +46,14 @@ class HeadlessPreviewMixin:
         else:
             identifier = "id=%d" % self.pk
 
-        return PagePreview.objects.create(
+        # Note: Using get_or_create() instead of just create() to avoid unique constraint failures if
+        # preview is clicked multiple times
+        preview, _ = PagePreview.objects.get_or_create(
             token=self.get_preview_signer().sign(identifier),
             content_type=self.content_type,
             content_json=self.to_json(),
         )
+        return preview
 
     def update_page_preview(self, token):
         return PagePreview.objects.update_or_create(
