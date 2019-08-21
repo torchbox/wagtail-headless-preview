@@ -94,6 +94,7 @@ class HeadlessPreviewMixin:
     def serve_preview(self, request, mode_name):
         use_live_preview = request.GET.get("live_preview")
         token = request.COOKIES.get("used-token")
+
         if use_live_preview and token:
             page_preview, existed = self.update_page_preview(token)
             PagePreview.garbage_collect()
@@ -108,15 +109,17 @@ class HeadlessPreviewMixin:
             page_preview = self.create_page_preview()
             page_preview.save()
 
+        response_token = token or page_preview.token
+
         response = render(
             request,
             "wagtail_headless_preview/preview.html",
-            {"preview_url": self.get_preview_url(page_preview.token)},
+            {"preview_url": self.get_preview_url(response_token)},
         )
 
         if use_live_preview:
             # Set cookie that auto-expires after 5mins
-            response.set_cookie(key="used-token", value=page_preview.token, max_age=300)
+            response.set_cookie(key="used-token", value=response_token, max_age=300)
 
         return response
 
