@@ -1,4 +1,4 @@
-# [Wagtail Headless Preview](https://pypi.org/project/wagtail-headless-preview/) [![PyPI](https://img.shields.io/pypi/v/wagtail-headless-preview.svg)](https://pypi.org/project/wagtail-headless-preview/)
+# [Wagtail Headless Preview](https://pypi.org/project/wagtail-headless-preview/) [![PyPI](https://img.shields.io/pypi/v/wagtail-headless-preview.svg)](https://pypi.org/project/wagtail-headless-preview/) [![black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 ## Overview
 
