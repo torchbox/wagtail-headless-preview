@@ -95,8 +95,13 @@ INSTALLED_APPS = [
 ```python
 from django.contrib.contenttypes.models import ContentType
 
-from wagtail.api.v2.endpoints import PagesAPIEndpoint
-from wagtail.api.v2.router import WagtailAPIRouter
+from wagtail import VERSION as WAGTAIL_VERSION
+
+if WAGTAIL_VERSION < (2, 8):
+    from wagtail.api.v2.endpoints import PagesAPIEndpoint as PagesAPIViewSet
+    from wagtail.api.v2.router import WagtailAPIRouter
+else:
+    from wagtail.api.v2.views import PagesAPIViewSet
 
 from wagtail_headless_preview.models import PagePreview
 from rest_framework.response import Response
@@ -106,8 +111,8 @@ from rest_framework.response import Response
 api_router = WagtailAPIRouter('wagtailapi')
 
 
-class PagePreviewAPIEndpoint(PagesAPIEndpoint):
-    known_query_parameters = PagesAPIEndpoint.known_query_parameters.union(['content_type', 'token'])
+class PagePreviewAPIViewSet(PagesAPIViewSet):
+    known_query_parameters = PagesAPIViewSet.known_query_parameters.union(['content_type', 'token'])
 
     def listing_view(self, request):
         page = self.get_object()
@@ -132,7 +137,7 @@ class PagePreviewAPIEndpoint(PagesAPIEndpoint):
         return page
 
 
-api_router.register_endpoint('page_preview', PagePreviewAPIEndpoint)
+api_router.register_endpoint('page_preview', PagePreviewAPIViewSet)
 ```
 
 * Register the API URLs so Django can route requests into the API:
