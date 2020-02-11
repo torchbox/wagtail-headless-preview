@@ -96,10 +96,10 @@ INSTALLED_APPS = [
 from django.contrib.contenttypes.models import ContentType
 
 from wagtail import VERSION as WAGTAIL_VERSION
+from wagtail.api.v2.router import WagtailAPIRouter
 
 if WAGTAIL_VERSION < (2, 8):
     from wagtail.api.v2.endpoints import PagesAPIEndpoint as PagesAPIViewSet
-    from wagtail.api.v2.router import WagtailAPIRouter
 else:
     from wagtail.api.v2.views import PagesAPIViewSet
 
