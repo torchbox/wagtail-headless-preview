@@ -30,9 +30,17 @@ Run migrations:
 $ ./manage.py migrate
 ```
 
-then configure the preview client URL using the `HEADLESS_PREVIEW_CLIENT_URLS` setting.
+Then configure the preview client URL using the `HEADLESS_PREVIEW_CLIENT_URLS` setting:
 
-For single site, the configuration should look like:
+```python
+HEADLESS_PREVIEW_CLIENT_URLS = {
+    'default': '{site_root_url}/',
+}
+```
+
+The `{site_root_url}` placeholder is replaced with the `root_url` of the `Site` the preview page belongs to.
+
+If the Wagtail `Site` object isn't configured with the frontend domain it is possible to hardcode an url:
 
 ```python
 HEADLESS_PREVIEW_CLIENT_URLS = {
