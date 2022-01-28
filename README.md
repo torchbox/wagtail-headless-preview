@@ -223,6 +223,24 @@ The preview page should now show you the API response for the preview! 🎉
 
 This is where a real front-end would take over and display the preview as it would be seen on the live site.
 
+## Contributing
+
+All contributions are welcome!
+
+Note that this project uses [pre-commit](https://github.com/pre-commit/pre-commit). To set up locally:
+
+```shell
+# if you don't have it yet
+$ pip install pre-commit
+# go to the project directory
+$ cd wagtail-headless-preview
+# initialize pre-commit
+$ pre-commit install
+
+# Optional, run all checks once for this, then the checks will run only on the changed files
+$ pre-commit run --all-files
+```
+
 ## Credits
 
 - Matthew Westcott ([@gasman](https://github.com/gasman)), initial proof of concept
