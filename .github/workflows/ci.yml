@@ -1,0 +1,74 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+      - uses: pre-commit/action@v2.0.3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  tests:
+    name: Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    needs: lint
+
+    strategy:
+      matrix:
+        python-version: ["3.8", "3.9", "3.10"]
+        experimental: [false]
+        include:
+          - python-version: "3.10"
+            toxenv: "notwagtailmain"
+            experimental: false
+          - python-version: "3.x"
+            toxenv: "wagtailmain"
+            experimental: true
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip setuptools wheel
+        python -m pip install --upgrade tox tox-py tox-venv
+    - name: Start dummy client
+      uses: Eun/http-server-action@v1
+      with:
+        directory: ${{ github.workspace }}/wagtail_headless_preview/tests/client
+        port: 8020
+        no-cache: false
+        content-types: |
+          {
+            "html": "text/html",
+            "js": "text/javascript",
+            "json": "application/json",
+            "txt": "text/plain"
+          }
+    - run: curl -vvvv http://localhost:8020/index.html
+    - name: Run tox targets for Python ${{ matrix.python-version }}
+      if: ${{ matrix.toxenv != 'wagtailmain' }}
+      continue-on-error: ${{ matrix.experimental }}
+      run: tox --py current
+
+    - name: Run ${{ matrix.toxenv }} tox targets
+      if: ${{ matrix.toxenv == 'wagtailmain' }}
+      continue-on-error: ${{ matrix.experimental }}
+      run: tox -e ${{ matrix.toxenv }}
