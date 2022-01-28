@@ -30,33 +30,43 @@ Run migrations:
 $ ./manage.py migrate
 ```
 
-Then configure the preview client URL using the `HEADLESS_PREVIEW_CLIENT_URLS` setting:
+Then configure the preview client URL using the `HEADLESS_PREVIEW_CLIENT_URLS` setting.
+
+### Single site setup
+
+For single sites, add the front-end URL as the default entry:
 
 ```python
 HEADLESS_PREVIEW_CLIENT_URLS = {
-    'default': '{site_root_url}/',
+    'default': 'http://localhost:8020',
 }
 ```
 
-The `{site_root_url}` placeholder is replaced with the `root_url` of the `Site` the preview page belongs to.
-
-If the Wagtail `Site` object isn't configured with the frontend domain it is possible to hardcode an url:
+If you have configured your Wagtail `Site` entry to use the front-end URL, then you can update your configuration to:
 
 ```python
 HEADLESS_PREVIEW_CLIENT_URLS = {
-    'default': 'http://localhost:8020/',
+    'default': '{SITE_ROOT_URL}',
 }
 ```
 
-For a multi-site setup, add each site as a separate entry:
+The `{SITE_ROOT_URL}` placeholder is replaced with the `root_url` property of the `Site` the preview page belongs to.
+
+
+### Multi-site setup
+
+For a multi-site setup, add each site as a separate entry in the `HEADLESS_PREVIEW_CLIENT_URLS` dictionary:
 
 ```python
 HEADLESS_PREVIEW_CLIENT_URLS = {
-    'default': 'http://localhost:8020/',
-    'site1.example.com': 'http://localhost:8020/',
-    'site2.example.com': 'http://localhost:8021/',
+    'default': 'http://localhost:8020',
+    'site1.example.com': 'http://localhost:8020',
+    'site2.example.com': 'http://localhost:8021',
 }
 ```
+
+
+### Live preview
 
 Optionally, you can enable live preview functionality with the `HEADLESS_PREVIEW_LIVE` setting:
 
