@@ -18,4 +18,5 @@ dist/
 *.egg
 
 .tox/
+.coverage
 db.sqlite3
