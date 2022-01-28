@@ -8,6 +8,7 @@ from wagtail.core import urls as wagtail_urls
 
 from wagtail_headless_preview.tests.testapp.api import api_router
 
+
 urlpatterns = [
     path("admin/", include(wagtailadmin_urls)),
     path("api/v2/", api_router.urls),
