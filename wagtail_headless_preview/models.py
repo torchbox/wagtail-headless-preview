@@ -67,11 +67,14 @@ class HeadlessPreviewMixin:
     def get_client_root_url(self):
         site = self.get_site()
         try:
-            return settings.HEADLESS_PREVIEW_CLIENT_URLS[site.hostname]
+            root_url = settings.HEADLESS_PREVIEW_CLIENT_URLS[site.hostname]
         except (AttributeError, KeyError):
-            return settings.HEADLESS_PREVIEW_CLIENT_URLS["default"].format(
+            root_url = settings.HEADLESS_PREVIEW_CLIENT_URLS["default"].format(
                 site_root_url=site.root_url
             )
+
+        root_url = root_url.rstrip("/") + "/"
+        return root_url
 
     @classmethod
     def get_content_type_str(cls):
