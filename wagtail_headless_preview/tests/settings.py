@@ -1,28 +1,37 @@
-from __future__ import absolute_import, unicode_literals
-
 import os
 
-DATABASES = {
-    "default": {
-        "ENGINE": os.environ.get("DATABASE_ENGINE", "django.db.backends.sqlite3"),
-        "NAME": os.environ.get("DATABASE_NAME", "wagtail_review"),
-        "USER": os.environ.get("DATABASE_USER", None),
-        "PASSWORD": os.environ.get("DATABASE_PASS", None),
-        "HOST": os.environ.get("DATABASE_HOST", None),
-        "TEST": {"NAME": os.environ.get("DATABASE_NAME", None)},
-    }
-}
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-SECRET_KEY = "not needed"
+SECRET_KEY = "fake_secret_key_to_run_tests"  # pragma: allowlist secret
 
-ROOT_URLCONF = "wagtail_headless_preview.tests.urls"
+INSTALLED_APPS = [
+    "wagtail_headless_preview",
+    "wagtail_headless_preview.tests.testapp",
+    "wagtail.sites",
+    "wagtail.users",
+    "wagtail.images",
+    "wagtail.documents",
+    "wagtail.admin",
+    "wagtail.core",
+    "wagtail.api.v2",
+    "taggit",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+]
 
-STATIC_URL = "/static/"
-
-STATICFILES_FINDERS = ("django.contrib.staticfiles.finders.AppDirectoriesFinder",)
-
-USE_TZ = True
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
 
 TEMPLATES = [
     {
@@ -42,52 +51,22 @@ TEMPLATES = [
     }
 ]
 
-# Django 1.11
-MIDDLEWARE_CLASSES = (
-    "django.middleware.common.CommonMiddleware",
-    "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
-    "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.auth.middleware.SessionAuthenticationMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "wagtail.core.middleware.SiteMiddleware",
-)
+PASSWORD_HASHERS = ["django.contrib.auth.hashers.MD5PasswordHasher"]
 
-# Django 2.x
-MIDDLEWARE = (
-    "django.middleware.common.CommonMiddleware",
-    "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
-    "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "wagtail.core.middleware.SiteMiddleware",
-)
+DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": "db.sqlite3"}}
 
-INSTALLED_APPS = (
-    "wagtail_headless_preview",
-    "wagtail_headless_preview.tests.testapp",
-    "wagtail.search",
-    "wagtail.sites",
-    "wagtail.users",
-    "wagtail.images",
-    "wagtail.documents",
-    "wagtail.admin",
-    "wagtail.core",
-    "wagtail.api.v2",
-    "taggit",
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.messages",
-    "django.contrib.staticfiles",
-)
+ALLOWED_HOSTS = ["*"]
 
-PASSWORD_HASHERS = (
-    "django.contrib.auth.hashers.MD5PasswordHasher",  # don't use the intentionally slow default password hasher
-)
+USE_TZ = True
+
+ROOT_URLCONF = "wagtail_headless_preview.tests.urls"
+
+STATICFILES_FINDERS = [
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+]
+
+STATIC_URL = "/static/"
 
 WAGTAIL_SITE_NAME = "wagtail-headless-preview test"
 BASE_URL = "http://test.local"

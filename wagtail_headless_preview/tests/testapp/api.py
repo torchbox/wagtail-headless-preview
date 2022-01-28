@@ -1,7 +1,7 @@
 from django.contrib.contenttypes.models import ContentType
 
 from rest_framework.response import Response
-from wagtail.api.v2.endpoints import PagesAPIEndpoint
+from wagtail.api.v2.views import PagesAPIViewSet
 from wagtail.api.v2.router import WagtailAPIRouter
 
 from wagtail_headless_preview.models import PagePreview
@@ -10,8 +10,8 @@ from wagtail_headless_preview.models import PagePreview
 api_router = WagtailAPIRouter("wagtailapi_v2")
 
 
-class PagePreviewAPIEndpoint(PagesAPIEndpoint):
-    known_query_parameters = PagesAPIEndpoint.known_query_parameters.union(
+class PagePreviewAPIEndpoint(PagesAPIViewSet):
+    known_query_parameters = PagesAPIViewSet.known_query_parameters.union(
         ["content_type", "token"]
     )
 
