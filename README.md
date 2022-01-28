@@ -19,8 +19,8 @@ After installing the module, add `wagtail_headless_preview` to installed apps in
 # settings.py
 
 INSTALLED_APPS = [
-    ...
-    'wagtail_headless_preview',
+    # ...
+    "wagtail_headless_preview",
 ]
 ```
 
@@ -38,7 +38,7 @@ For single sites, add the front-end URL as the default entry:
 
 ```python
 HEADLESS_PREVIEW_CLIENT_URLS = {
-    'default': 'http://localhost:8020',
+    "default": "http://localhost:8020",
 }
 ```
 
@@ -46,7 +46,7 @@ If you have configured your Wagtail `Site` entry to use the front-end URL, then 
 
 ```python
 HEADLESS_PREVIEW_CLIENT_URLS = {
-    'default': '{SITE_ROOT_URL}',
+    "default": "{SITE_ROOT_URL}",
 }
 ```
 
@@ -59,9 +59,9 @@ For a multi-site setup, add each site as a separate entry in the `HEADLESS_PREVI
 
 ```python
 HEADLESS_PREVIEW_CLIENT_URLS = {
-    'default': 'http://localhost:8020',
-    'site1.example.com': 'http://localhost:8020',
-    'site2.example.com': 'http://localhost:8021',
+    "default": "http://localhost:8020",
+    "site1.example.com": "http://localhost:8020",
+    "site2.example.com": "http://localhost:8021",
 }
 ```
 
@@ -75,7 +75,7 @@ Optionally, you can enable live preview functionality with the `HEADLESS_PREVIEW
 HEADLESS_PREVIEW_LIVE = True
 ```
 
-Note: Your front-end app must be set up for live preview, a feature that usually requires [Django Channels](https://github.com/django/channels/) or other WebSocket/async libraries. 
+Note: Your front-end app must be set up for live preview, a feature that usually requires [Django Channels](https://github.com/django/channels/) or other WebSocket/async libraries.
 
 ## Usage
 
@@ -83,6 +83,7 @@ Add `HeadlessPreviewMixin` to your page class:
 
 ```python
 from wagtail_headless_preview.models import HeadlessPreviewMixin
+
 
 class MyWonderfulPage(HeadlessPreviewMixin, Page):
     pass
@@ -92,7 +93,7 @@ class MyWonderfulPage(HeadlessPreviewMixin, Page):
 
 This depends on your project, as it will be dictated by the requirements of your front-end app.
 
-The following example uses a Wagtail API endpoint to access previews - 
+The following example uses a Wagtail API endpoint to access previews -
 your app may opt to access page previews using [GraphQL](https://wagtail.io/blog/getting-started-with-wagtail-and-graphql/) instead.
 
 ### Example
@@ -104,8 +105,8 @@ This example sets up an API endpoint which will return the preview for a page, a
 # settings.py
 
 INSTALLED_APPS = [
-    ...
-    'wagtail.api.v2',
+    # ...
+    "wagtail.api.v2",
 ]
 ```
 
@@ -113,24 +114,21 @@ INSTALLED_APPS = [
 ```python
 from django.contrib.contenttypes.models import ContentType
 
-from wagtail import VERSION as WAGTAIL_VERSION
 from wagtail.api.v2.router import WagtailAPIRouter
-
-if WAGTAIL_VERSION < (2, 8):
-    from wagtail.api.v2.endpoints import PagesAPIEndpoint as PagesAPIViewSet
-else:
-    from wagtail.api.v2.views import PagesAPIViewSet
+from wagtail.api.v2.views import PagesAPIViewSet
 
 from wagtail_headless_preview.models import PagePreview
 from rest_framework.response import Response
 
 
 # Create the router. "wagtailapi" is the URL namespace
-api_router = WagtailAPIRouter('wagtailapi')
+api_router = WagtailAPIRouter("wagtailapi")
 
 
 class PagePreviewAPIViewSet(PagesAPIViewSet):
-    known_query_parameters = PagesAPIViewSet.known_query_parameters.union(['content_type', 'token'])
+    known_query_parameters = PagesAPIViewSet.known_query_parameters.union(
+        ["content_type", "token"]
+    )
 
     def listing_view(self, request):
         page = self.get_object()
@@ -143,10 +141,12 @@ class PagePreviewAPIViewSet(PagesAPIViewSet):
         return Response(serializer.data)
 
     def get_object(self):
-        app_label, model = self.request.GET['content_type'].split('.')
+        app_label, model = self.request.GET["content_type"].split(".")
         content_type = ContentType.objects.get(app_label=app_label, model=model)
 
-        page_preview = PagePreview.objects.get(content_type=content_type, token=self.request.GET['token'])
+        page_preview = PagePreview.objects.get(
+            content_type=content_type, token=self.request.GET["token"]
+        )
         page = page_preview.as_page()
         if not page.pk:
             # fake primary key to stop API URL routing from complaining
@@ -155,7 +155,7 @@ class PagePreviewAPIViewSet(PagesAPIViewSet):
         return page
 
 
-api_router.register_endpoint('page_preview', PagePreviewAPIViewSet)
+api_router.register_endpoint("page_preview", PagePreviewAPIViewSet)
 ```
 
 * Register the API URLs so Django can route requests into the API:
@@ -166,11 +166,11 @@ api_router.register_endpoint('page_preview', PagePreviewAPIViewSet)
 from .api import api_router
 
 urlpatterns = [
-    ...
-    path('api/v2/', api_router.urls),
-    ...
+    # ...
+    path("api/v2/", api_router.urls),
+    # ...
     # Ensure that the api_router line appears above the default Wagtail page serving route
-    path('', include(wagtail_urls)),
+    path("", include(wagtail_urls)),
 ]
 ```
 
@@ -208,10 +208,11 @@ For further information about configuring the wagtail API, refer to the [Wagtail
 * Add CORS config to your settings file to allow the front-end to access the API
 
 ```python
+# settings.py
 CORS_ORIGIN_ALLOW_ALL = True
-CORS_URLS_REGEX = r'^/api/v2/'
- ```
- 
+CORS_URLS_REGEX = r"^/api/v2/"
+```
+
 and follow the rest of the [setup instructions for django-cors-headers](https://github.com/ottoyiu/django-cors-headers#setup).
 
 * Start up your site as normal: `./manage.py runserver 0:8000`

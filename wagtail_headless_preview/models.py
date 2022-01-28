@@ -46,8 +46,8 @@ class HeadlessPreviewMixin:
         else:
             identifier = "id=%d" % self.pk
 
-        # Note: Using get_or_create() instead of just create() to avoid unique constraint failures if
-        # preview is clicked multiple times
+        # Note: Using get_or_create() instead of just create() to avoid unique constraint
+        # failures if preview is clicked multiple times
         preview, _ = PagePreview.objects.get_or_create(
             token=self.get_preview_signer().sign(identifier),
             content_type=self.content_type,
@@ -105,9 +105,8 @@ class HeadlessPreviewMixin:
             page_preview, existed = self.update_page_preview(token)
             PagePreview.garbage_collect()
 
-            from wagtail_headless_preview.signals import (
-                preview_update,
-            )  # Imported locally as live preview is optional
+            # Imported locally as live preview is optional
+            from wagtail_headless_preview.signals import preview_update
 
             preview_update.send(sender=HeadlessPreviewMixin, token=token)
         else:

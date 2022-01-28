@@ -1,8 +1,16 @@
+global-exclude *.py[cod] __pycache__ .DS_Store
+prune __pycache__
+prune venv .venv
+prune .tox
+prune tests
+
 include LICENSE *.rst *.txt *.md
 
-recursive-include wagtail_headless_preview/templates *
-recursive-include wagtail_headless_preview/static *
+graft wagtail_headless_preview
 
-global-exclude __pycache__
-global-exclude *.py[co]
-global-exclude .DS_Store
+include pyproject.toml
+exclude .pre-commit-config.yaml
+exclude tox.ini
+exclude db.sqlite3
+exclude .editorconfig
+exclude runtests.py

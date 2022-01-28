@@ -2,6 +2,7 @@
 *.pyc
 __pycache__
 venv/
+.venv
 
 # IDEs and text editors
 *.sublime-project
@@ -16,5 +17,5 @@ dist/
 *.egg-info/
 *.egg
 
-
 .tox/
+db.sqlite3
