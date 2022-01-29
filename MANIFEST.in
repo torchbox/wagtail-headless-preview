@@ -5,10 +5,10 @@ prune .coverage
 prune .tox
 prune tests
 
-include LICENSE *.rst *.txt *.md
-
 graft wagtail_headless_preview
 
+include LICENSE *.txt *.md
 include pyproject.toml .editorconfig
-exclude .pre-commit-config.yaml
-exclude manage.py runtests.py tox.ini db.sqlite3
+
+exclude .pre-commit-config.yaml .coveragerc tox.ini
+exclude manage.py runtests.py db.sqlite3

@@ -1,13 +1,15 @@
 import os
 
 
+DEBUG = "INTERACTIVE" in os.environ
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 SECRET_KEY = "fake_secret_key_to_run_tests"  # pragma: allowlist secret
 
 INSTALLED_APPS = [
+    "tests.testapp",
     "wagtail_headless_preview",
-    "wagtail_headless_preview.tests.testapp",
     "wagtail.sites",
     "wagtail.users",
     "wagtail.images",
@@ -59,17 +61,20 @@ ALLOWED_HOSTS = ["*"]
 
 USE_TZ = True
 
-ROOT_URLCONF = "wagtail_headless_preview.tests.urls"
+ROOT_URLCONF = "tests.urls"
 
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
 
+WAGTAIL_HEADLESS_PREVIEW_ROOT = os.path.dirname(__file__)
+STATIC_ROOT = os.path.join(WAGTAIL_HEADLESS_PREVIEW_ROOT, "test-static")
+MEDIA_ROOT = os.path.join(WAGTAIL_HEADLESS_PREVIEW_ROOT, "test-media")
+MEDIA_URL = "/media/"
 STATIC_URL = "/static/"
 
 WAGTAIL_SITE_NAME = "wagtail-headless-preview test"
-BASE_URL = "http://test.local"
 
 WAGTAIL_HEADLESS_PREVIEW = {"CLIENT_URLS": {"default": "http://localhost:8020/"}}
 

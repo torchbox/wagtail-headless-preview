@@ -7,7 +7,7 @@ import warnings
 from django.core.management import execute_from_command_line
 
 
-os.environ["DJANGO_SETTINGS_MODULE"] = "wagtail_headless_preview.tests.settings"
+os.environ["DJANGO_SETTINGS_MODULE"] = "tests.settings"
 
 
 def runtests():

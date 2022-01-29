@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ("wagtailcore", "0066_collection_management_permissions"),
-        ("testapp", "0001_initial"),
+        ("wagtail_headless_preview_tests", "0001_initial"),
     ]
 
     operations = [
