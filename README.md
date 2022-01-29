@@ -8,9 +8,12 @@
 
 ## Overview
 
-With Wagtail as the backend, and a separate app for the front-end (for example a single page React app), editors are no longer able to preview their changes. This is because the front-end is no longer within Wagtail's direct control. The preview data therefore needs to be exposed to the front-end app.
+With Wagtail as the backend, and a separate app for the front-end (for example a single page React app), editors are no
+longer able to preview their changes. This is because the front-end is no longer within Wagtail's direct control.
+The preview data therefore needs to be exposed to the front-end app.
 
-This package enables previews for Wagtail pages when used in a headless setup by routing the preview to the specified front-end URL.
+This package enables previews for Wagtail pages when used in a headless setup by routing the preview to the specified
+front-end URL.
 
 ## Setup
 
@@ -33,26 +36,45 @@ INSTALLED_APPS = [
 Run migrations:
 
 ```sh
-$ ./manage.py migrate
+$ python manage.py migrate
 ```
 
 Then configure the preview client URL using the `HEADLESS_PREVIEW_CLIENT_URLS` setting.
+
+## Configuration
+
+`wagtail_headless_preview` uses a single settings dictionary:
+
+```python
+# settings.py
+
+WAGTAIL_HEADLESS_PREVIEW = {
+    "CLIENT_URLS": {},  # defaults to an empty dict. You must at the very least define the default client URL.
+    "LIVE_PREVIEW": False,  # set to True to enable live preview functionality
+    "SERVE_BASE_URL": None,  # can be used for HeadlessServeMixin
+    "REDIRECT_ON_PREVIEW": False,  # set to True to redirect to the preview instead of using the Wagtail default mechanism
+}
+```
 
 ### Single site setup
 
 For single sites, add the front-end URL as the default entry:
 
 ```python
-HEADLESS_PREVIEW_CLIENT_URLS = {
-    "default": "http://localhost:8020",
+WAGTAIL_HEADLESS_PREVIEW = {
+    "CLIENT_URLS": {
+        "default": "http://localhost:8020",
+    }
 }
 ```
 
 If you have configured your Wagtail `Site` entry to use the front-end URL, then you can update your configuration to:
 
 ```python
-HEADLESS_PREVIEW_CLIENT_URLS = {
-    "default": "{SITE_ROOT_URL}",
+WAGTAIL_HEADLESS_PREVIEW = {
+    "CLIENT_URLS": {
+        "default": "{SITE_ROOT_URL}",
+    }
 }
 ```
 
@@ -64,10 +86,13 @@ The `{SITE_ROOT_URL}` placeholder is replaced with the `root_url` property of th
 For a multi-site setup, add each site as a separate entry in the `HEADLESS_PREVIEW_CLIENT_URLS` dictionary:
 
 ```python
-HEADLESS_PREVIEW_CLIENT_URLS = {
-    "default": "http://localhost:8020",
-    "site1.example.com": "http://localhost:8020",
-    "site2.example.com": "http://localhost:8021",
+WAGTAIL_HEADLESS_PREVIEW = {
+    "CLIENT_URLS": {
+        "default": "https://wagtail.org",  # adjust to match your front-end URL. e.g. locally it may be something like http://localhost:8020
+        "cms.wagtail.org": "https://wagtail.org",
+        "cms.torchbox.com": "http://torchbox.com",
+    },
+    # ...
 }
 ```
 
@@ -77,29 +102,48 @@ To make the editing experience seamles and to avoid server errors due to missing
 you can use the `HeadlessMixin` which combines the `HeadlessServeMixin` and `HeadlessPreviewMixin` mixins.
 
 `HeadlessServeMixin` overrides the Wagtail `Page.serve` method to redirect to the client URL. By default,
-it uses the hosts defined in `HEADLESS_PREVIEW_CLIENT_URLS`. However you can provide a single URL to
-rule them all:
+it uses the hosts defined in `CLIENT_URLS`. However you can provide a single URL to rule them all:
 
 ```python
 # settings.py
 
-HEADLESS_SERVE_BASE_URL = "https://my-amazing-headless-site.com"
+WAGTAIL_HEADLESS_PREVIEW = {
+    # ...
+    "SERVE_BASE_URL": "https://my.headless.site",
+}
 ```
 
 ### Live preview
 
-Optionally, you can enable live preview functionality with the `HEADLESS_PREVIEW_LIVE` setting:
+Optionally, you can enable live preview functionality with the `LIVE_PREVIEW` setting:
 
 ```python
 # settings.py
-HEADLESS_PREVIEW_LIVE = True
+
+WAGTAIL_HEADLESS_PREVIEW = {
+    # ...
+    "LIVE_PREVIEW": True,
+}
 ```
 
-Note: Your front-end app must be set up for live preview, a feature that usually requires [Django Channels](https://github.com/django/channels/) or other WebSocket/async libraries.
+Note: Your front-end app must be set up for live preview, a feature that usually requires
+[Django Channels](https://github.com/django/channels/) or other WebSocket/async libraries.
 
 ## Usage
 
-Add `HeadlessPreviewMixin` to your page class:
+To enable preview as well as wire in the "View live" button in the Wagtail UI, add the `HeadlessMixin`
+to your `Page` class:
+
+```python
+from wagtail_headless_preview.models import HeadlessMixin
+
+
+class MyWonderfulPage(HeadlessMixin, Page):
+    pass
+```
+
+If you require more granular control, or if you've modified you `Page` model's `serve` method, you can
+add `HeadlessPreviewMixin` to your `Page` class to only handle previews:
 
 ```python
 from wagtail_headless_preview.models import HeadlessPreviewMixin
@@ -118,7 +162,8 @@ your app may opt to access page previews using [GraphQL](https://wagtail.io/blog
 
 ### Example
 
-This example sets up an API endpoint which will return the preview for a page, and then displays that data on a simplified demo front-end app.
+This example sets up an API endpoint which will return the preview for a page, and then displays that data
+on a simplified demo front-end app.
 
 * Add `wagtail.api.v2` to the installed apps:
 ```python
@@ -131,6 +176,7 @@ INSTALLED_APPS = [
 ```
 
 * create an `api.py` file in your project directory:
+
 ```python
 from django.contrib.contenttypes.models import ContentType
 
@@ -224,7 +270,7 @@ For further information about configuring the wagtail API, refer to the [Wagtail
 ```
 
 
-* Install django-cors-headers: `pip install django-cors-headers`
+* Install [django-cors-headers](https://pypi.org/project/django-cors-headers/): `pip install django-cors-headers`
 * Add CORS config to your settings file to allow the front-end to access the API
 
 ```python
@@ -235,7 +281,7 @@ CORS_URLS_REGEX = r"^/api/v2/"
 
 and follow the rest of the [setup instructions for django-cors-headers](https://github.com/ottoyiu/django-cors-headers#setup).
 
-* Start up your site as normal: `./manage.py runserver 0:8000`
+* Start up your site as normal: `python manage.py runserver 0:8000`
 * Serve the front-end `client/index.html` at `http://localhost:8020/`
    - this can be done by running `python3 -m http.server 8020` from inside the client directory
 * From the wagtail admin interface, edit (or create) and preview a page that uses `HeadlessPreviewMixin`
