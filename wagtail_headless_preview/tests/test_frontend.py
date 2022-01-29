@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.contrib.auth.models import User
 from django.test import TestCase, override_settings
 from django.urls import reverse
@@ -7,6 +6,7 @@ from django.utils.http import urlencode
 from wagtail.core.models import Page
 
 from wagtail_headless_preview.models import PagePreview
+from wagtail_headless_preview.settings import headless_preview_settings
 from wagtail_headless_preview.tests.testapp.models import HeadlessPage, SimplePage
 
 
@@ -57,7 +57,12 @@ class TestFrontendViews(TestCase):
         response = self.client.get(preview_url)
         self.assertContains(response, "Simple page with draft edit")
 
-    @override_settings(HEADLESS_PREVIEW_REDIRECT=True)
+    @override_settings(
+        WAGTAIL_HEADLESS_PREVIEW={
+            "CLIENT_URLS": {"default": "https://headless.site"},
+            "REDIRECT_ON_PREVIEW": True,
+        }
+    )
     def test_redirect_on_preview(self):
         view_draft_url = reverse("wagtailadmin_pages:view_draft", args=(self.page.id,))
         response = self.client.get(view_draft_url)
@@ -84,13 +89,15 @@ class TestHeadlessRedirectMixin(TestCase):
         self.homepage.add_child(instance=self.page)
 
     def test_serve(self):
-        client_url = settings.HEADLESS_PREVIEW_CLIENT_URLS["default"].rstrip("/")
+        client_url = headless_preview_settings.CLIENT_URLS["default"].rstrip("/")
         response = self.client.get(self.page.url)
         self.assertRedirects(
             response, f"{client_url}/{self.page.slug}/", fetch_redirect_response=False
         )
 
-    @override_settings(HEADLESS_SERVE_BASE_URL="https://headless.site")
+    @override_settings(
+        WAGTAIL_HEADLESS_PREVIEW={"SERVE_BASE_URL": "https://headless.site"}
+    )
     def test_serve_with_headless_serve_base_url(self):
         response = self.client.get(self.page.url)
         self.assertRedirects(

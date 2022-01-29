@@ -71,7 +71,7 @@ STATIC_URL = "/static/"
 WAGTAIL_SITE_NAME = "wagtail-headless-preview test"
 BASE_URL = "http://test.local"
 
-HEADLESS_PREVIEW_CLIENT_URLS = {"default": "http://localhost:8020/"}
+WAGTAIL_HEADLESS_PREVIEW = {"CLIENT_URLS": {"default": "http://localhost:8020/"}}
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_URLS_REGEX = r"^/api/v2/"
