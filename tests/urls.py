@@ -6,7 +6,7 @@ from django.urls import path
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.core import urls as wagtail_urls
 
-from wagtail_headless_preview.tests.testapp.api import api_router
+from tests.testapp.api import api_router
 
 
 urlpatterns = [

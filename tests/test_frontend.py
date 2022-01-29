@@ -5,9 +5,9 @@ from django.utils.http import urlencode
 
 from wagtail.core.models import Page
 
+from tests.testapp.models import HeadlessPage, SimplePage
 from wagtail_headless_preview.models import PagePreview
 from wagtail_headless_preview.settings import headless_preview_settings
-from wagtail_headless_preview.tests.testapp.models import HeadlessPage, SimplePage
 
 
 class TestFrontendViews(TestCase):
@@ -42,10 +42,13 @@ class TestFrontendViews(TestCase):
 
         preview_token = PagePreview.objects.first().token
         self.assertContains(response, urlencode({"token": preview_token}))
-        self.assertContains(response, urlencode({"content_type": "testapp.simplepage"}))
+        self.assertContains(
+            response,
+            urlencode({"content_type": "wagtail_headless_preview_tests.simplepage"}),
+        )
 
         params = {
-            "content_type": "testapp.simplepage",
+            "content_type": "wagtail_headless_preview_tests.simplepage",
             "token": preview_token,
             "format": "json",
         }
