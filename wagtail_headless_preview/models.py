@@ -1,12 +1,13 @@
 import datetime
 import json
 
-from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.core.signing import TimestampSigner
 from django.db import models
 from django.shortcuts import redirect, render
 from django.utils.http import urlencode
+
+from wagtail_headless_preview.settings import headless_preview_settings
 
 
 class PagePreview(models.Model):
@@ -34,9 +35,9 @@ class PagePreview(models.Model):
 
 def get_client_root_url_from_site(site):
     try:
-        root_url = settings.HEADLESS_PREVIEW_CLIENT_URLS[site.hostname]
+        root_url = headless_preview_settings.CLIENT_URLS[site.hostname]
     except (AttributeError, KeyError):
-        root_url = settings.HEADLESS_PREVIEW_CLIENT_URLS["default"].format(
+        root_url = headless_preview_settings.CLIENT_URLS["default"].format(
             SITE_ROOT_URL=site.root_url
         )
 
@@ -118,7 +119,7 @@ class HeadlessPreviewMixin:
         response_token = token or page_preview.token
         preview_url = self.get_preview_url(response_token)
 
-        if getattr(settings, "HEADLESS_PREVIEW_REDIRECT", False):
+        if headless_preview_settings.REDIRECT_ON_PREVIEW:
             return redirect(preview_url)
 
         response = render(
@@ -157,8 +158,8 @@ class HeadlessServeMixin:
         By default this uses the hosts defined in HEADLESS_PREVIEW_CLIENT_URLS.
         However, you can enforce a single host using  the HEADLESS_SERVE_BASE_URL setting.
         """
-        if getattr(settings, "HEADLESS_SERVE_BASE_URL", None):
-            base_url = settings.HEADLESS_SERVE_BASE_URL
+        if headless_preview_settings.SERVE_BASE_URL:
+            base_url = headless_preview_settings.SERVE_BASE_URL
         else:
             base_url = get_client_root_url_from_site(self.get_site())
         site_id, site_root, relative_page_url = self.get_url_parts(request)
