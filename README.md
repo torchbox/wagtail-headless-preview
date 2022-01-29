@@ -71,6 +71,20 @@ HEADLESS_PREVIEW_CLIENT_URLS = {
 }
 ```
 
+### Serve URL
+
+To make the editing experience seamles and to avoid server errors due to missing templates,
+you can use the `HeadlessMixin` which combines the `HeadlessServeMixin` and `HeadlessPreviewMixin` mixins.
+
+`HeadlessServeMixin` overrides the Wagtail `Page.serve` method to redirect to the client URL. By default,
+it uses the hosts defined in `HEADLESS_PREVIEW_CLIENT_URLS`. However you can provide a single URL to
+rule them all:
+
+```python
+# settings.py
+
+HEADLESS_SERVE_BASE_URL = "https://my-amazing-headless-site.com"
+```
 
 ### Live preview
 

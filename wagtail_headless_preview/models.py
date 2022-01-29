@@ -6,7 +6,7 @@ from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.core.signing import TimestampSigner
 from django.db import models
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 
 
 class PagePreview(models.Model):
@@ -30,6 +30,18 @@ class PagePreview(models.Model):
     def garbage_collect(cls):
         yesterday = datetime.datetime.now() - datetime.timedelta(hours=24)
         cls.objects.filter(created_at__lt=yesterday).delete()
+
+
+def get_client_root_url_from_site(site):
+    try:
+        root_url = settings.HEADLESS_PREVIEW_CLIENT_URLS[site.hostname]
+    except (AttributeError, KeyError):
+        root_url = settings.HEADLESS_PREVIEW_CLIENT_URLS["default"].format(
+            SITE_ROOT_URL=site.root_url
+        )
+
+    root_url = root_url.rstrip("/") + "/"
+    return root_url
 
 
 class HeadlessPreviewMixin:
@@ -65,16 +77,7 @@ class HeadlessPreviewMixin:
         )
 
     def get_client_root_url(self):
-        site = self.get_site()
-        try:
-            root_url = settings.HEADLESS_PREVIEW_CLIENT_URLS[site.hostname]
-        except (AttributeError, KeyError):
-            root_url = settings.HEADLESS_PREVIEW_CLIENT_URLS["default"].format(
-                SITE_ROOT_URL=site.root_url
-            )
-
-        root_url = root_url.rstrip("/") + "/"
-        return root_url
+        return get_client_root_url_from_site(self.get_site())
 
     @classmethod
     def get_content_type_str(cls):
@@ -141,3 +144,24 @@ class HeadlessPreviewMixin:
             ).as_page()
         except PagePreview.DoesNotExist:
             return
+
+
+class HeadlessServeMixin:
+    def serve(self, request):
+        """
+        Mixin overriding the default serve method with a redirect.
+        The URL of the requested page is kept the same, only the host is
+        overridden.
+        By default this uses the hosts defined in HEADLESS_PREVIEW_CLIENT_URLS.
+        However, you can enforce a single host using  the HEADLESS_SERVE_BASE_URL setting.
+        """
+        if getattr(settings, "HEADLESS_SERVE_BASE_URL", None):
+            base_url = settings.HEADLESS_SERVE_BASE_URL
+        else:
+            base_url = get_client_root_url_from_site(self.get_site())
+        site_id, site_root, relative_page_url = self.get_url_parts(request)
+        return redirect(f"{base_url.rstrip('/')}{relative_page_url}")
+
+
+class HeadlessMixin(HeadlessPreviewMixin, HeadlessServeMixin):
+    pass
