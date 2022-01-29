@@ -308,7 +308,18 @@ $ pre-commit install
 $ pre-commit run --all-files
 ```
 
+### How to run tests
+
+Now you can run tests as shown below:
+
+```sh
+tox -p
+```
+
+or, you can run them for a specific environment `tox -e py39-django3.2-wagtail2.15` or specific test
+`tox -e py310-django3.2-wagtail2.15 wagtail_headless_preview.tests.test_frontend.TestFrontendViews.test_redirect_on_preview`
+
 ## Credits
 
 - Matthew Westcott ([@gasman](https://github.com/gasman)), initial proof of concept
-- Karl Hobley ([@kaedroho](https://github.com/kaedroho)), improvements
+- Karl Hobley ([@kaedroho](https://github.com/kaedroho)), PoC improvements
