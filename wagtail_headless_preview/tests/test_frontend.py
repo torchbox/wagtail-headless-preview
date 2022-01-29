@@ -1,9 +1,8 @@
-import urllib
-
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.test import TestCase, override_settings
 from django.urls import reverse
+from django.utils.http import urlencode
 
 from wagtail.core.models import Page
 
@@ -29,9 +28,9 @@ class TestFrontendViews(TestCase):
         self.page.title = "Simple page with draft edit"
         self.page.save_revision()
 
-    def test_view(self):
         self.client.login(username=self.admin_user.username, password="password")
 
+    def test_view(self):
         self.assertEqual(PagePreview.objects.count(), 0)
         # Try getting page draft
         view_draft_url = reverse("wagtailadmin_pages:view_draft", args=(self.page.id,))
@@ -42,28 +41,34 @@ class TestFrontendViews(TestCase):
         self.assertEqual(PagePreview.objects.count(), 1)
 
         preview_token = PagePreview.objects.first().token
-        self.assertContains(response, urllib.parse.urlencode({"token": preview_token}))
-        self.assertContains(
-            response, urllib.parse.urlencode({"content_type": "testapp.simplepage"})
-        )
+        self.assertContains(response, urlencode({"token": preview_token}))
+        self.assertContains(response, urlencode({"content_type": "testapp.simplepage"}))
 
         params = {
             "content_type": "testapp.simplepage",
             "token": preview_token,
             "format": "json",
         }
-        preview_api_url = "{base_url}{page_id}/?{params}".format(
+        preview_url = "{base_url}{page_id}/?{params}".format(
             base_url=reverse("wagtailapi_v2:page_preview:listing"),
             page_id=self.page.id,
-            params=urllib.parse.urlencode(params),
+            params=urlencode(params),
         )
-
-        response = self.client.get(preview_api_url)
+        response = self.client.get(preview_url)
         self.assertContains(response, "Simple page with draft edit")
 
-        # TODO fix this.
-        # response = self.client.get(self.page.get_preview_url(preview_token))
-        # self.assertContains(response, '<title>Headless preview</title>')
+    @override_settings(HEADLESS_PREVIEW_REDIRECT=True)
+    def test_redirect_on_preview(self):
+        view_draft_url = reverse("wagtailadmin_pages:view_draft", args=(self.page.id,))
+        response = self.client.get(view_draft_url)
+
+        preview_token = PagePreview.objects.first().token
+
+        self.assertRedirects(
+            response,
+            self.page.get_preview_url(preview_token),
+            fetch_redirect_response=False,
+        )
 
 
 class TestHeadlessRedirectMixin(TestCase):
