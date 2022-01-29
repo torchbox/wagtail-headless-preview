@@ -1,12 +1,12 @@
 import datetime
 import json
-import urllib
 
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.core.signing import TimestampSigner
 from django.db import models
 from django.shortcuts import redirect, render
+from django.utils.http import urlencode
 
 
 class PagePreview(models.Model):
@@ -87,9 +87,7 @@ class HeadlessPreviewMixin:
         return (
             self.get_client_root_url()
             + "?"
-            + urllib.parse.urlencode(
-                {"content_type": self.get_content_type_str(), "token": token}
-            )
+            + urlencode({"content_type": self.get_content_type_str(), "token": token})
         )
 
     def dummy_request(self, original_request=None, **meta):
@@ -118,11 +116,15 @@ class HeadlessPreviewMixin:
             page_preview.save()
 
         response_token = token or page_preview.token
+        preview_url = self.get_preview_url(response_token)
+
+        if getattr(settings, "HEADLESS_PREVIEW_REDIRECT", False):
+            return redirect(preview_url)
 
         response = render(
             request,
             "wagtail_headless_preview/preview.html",
-            {"preview_url": self.get_preview_url(response_token)},
+            {"preview_url": preview_url},
         )
 
         if use_live_preview:
