@@ -2,7 +2,7 @@ from os import path
 
 from setuptools import find_packages, setup
 
-from wagtail_headless_preview import __version__
+from src.wagtail_headless_preview import __version__
 
 
 this_directory = path.abspath(path.dirname(__file__))
@@ -13,17 +13,19 @@ with open(path.join(this_directory, "README.md"), encoding="utf-8") as f:
 setup(
     name="wagtail-headless-preview",
     version=__version__,
-    packages=find_packages(exclude=["tests*"]),
-    include_package_data=True,
-    description="Wagtail previews in headless mode.",
+    description="Enhance Wagtail previews in headless setups.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/torchbox/wagtail-headless-preview",
     author="Dan Braghis",
     author_email="dan.braghis@torchbox.com",
+    url="https://github.com/torchbox/wagtail-headless-preview",
+    packages=find_packages(where="src"),
+    package_dir={"": "src"},
+    include_package_data=True,
     license="BSD",
     install_requires=["wagtail>=2.11"],
     extras_require={"testing": ["tox", "django-cors-headers"]},
+    keywords=["wagtail", "django", "headless"],
     classifiers=[
         "Development Status :: 4 - Beta",
         "Environment :: Web Environment",
@@ -36,6 +38,10 @@ setup(
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
+        "Framework :: Django",
+        "Framework :: Django :: 2.2",
+        "Framework :: Django :: 3.2",
+        "Framework :: Django :: 4.0",
         "Framework :: Wagtail",
         "Framework :: Wagtail :: 2",
         "Topic :: Internet :: WWW/HTTP",
