@@ -10,5 +10,5 @@ graft src/wagtail_headless_preview
 include LICENSE *.txt *.md
 include pyproject.toml .editorconfig
 
-exclude .pre-commit-config.yaml .coveragerc tox.ini
+exclude .pre-commit-config.yaml .coveragerc tox.ini Makefile
 exclude manage.py runtests.py db.sqlite3
