@@ -14,7 +14,7 @@ from django.conf import settings
 from django.test.signals import setting_changed
 
 from wagtail_headless_preview.deprecation import (
-    RemovedInWagtailHeadlessPreivew030Warning,
+    RemovedInWagtailHeadlessPreview040Warning,
 )
 
 
@@ -30,12 +30,12 @@ DEPRECATED_SETTINGS = [
     (
         "HEADLESS_PREVIEW_CLIENT_URLS",
         "CLIENT_URLS",
-        RemovedInWagtailHeadlessPreivew030Warning,
+        RemovedInWagtailHeadlessPreview040Warning,
     ),
     (
         "HEADLESS_PREVIEW_LIVE",
         "LIVE_PREVIEW",
-        RemovedInWagtailHeadlessPreivew030Warning,
+        RemovedInWagtailHeadlessPreview040Warning,
     ),
 ]
 
@@ -88,19 +88,21 @@ class WagtailHeadlessPreviewSettings:
         return val
 
     def __check_user_settings(self, user_settings):
-        for setting, new_setting, category in DEPRECATED_SETTINGS:
-            if setting in user_settings or hasattr(settings, setting):
+        for old_setting, new_setting, category in DEPRECATED_SETTINGS:
+            setting_in_user_settings = old_setting in user_settings
+            if setting_in_user_settings or hasattr(settings, old_setting):
                 warnings.warn(
-                    f"The '{setting}' setting is deprecated and will be "
+                    f"The '{old_setting}' setting is deprecated and will be "
                     f"removed in the next release, use "
                     f'WAGTAIL_HEADLESS_PREVIEW["{new_setting}"] instead.',
                     category=category,
                 )
-                user_settings[new_setting] = user_settings[setting]
-        for setting in REMOVED_SETTINGS:
-            if setting in user_settings:
+                if setting_in_user_settings:
+                    user_settings[new_setting] = user_settings[old_setting]
+        for removed_setting in REMOVED_SETTINGS:
+            if removed_setting in user_settings or hasattr(settings, removed_setting):
                 raise RuntimeError(
-                    f"The '{setting}' setting has been removed. "
+                    f"The '{removed_setting}' setting has been removed. "
                     f"Please refer to the wagtail_headless_preview "
                     f"documentation for available settings."
                 )
