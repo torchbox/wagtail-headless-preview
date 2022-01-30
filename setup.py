@@ -22,6 +22,9 @@ setup(
     author="Dan Braghis",
     author_email="dan.braghis@torchbox.com",
     url="https://github.com/torchbox/wagtail-headless-preview",
+    project_urls={
+        "Changelog": "https://github.com/torchbox/wagtail-headless-preview/blob/main/CHANGELOG.md",  # noqa:B950
+    },
     packages=find_packages(where="src"),
     package_dir={"": "src"},
     include_package_data=True,
