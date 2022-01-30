@@ -2,17 +2,20 @@ from os import path
 
 from setuptools import find_packages, setup
 
-from src.wagtail_headless_preview import __version__
-
 
 this_directory = path.abspath(path.dirname(__file__))
 with open(path.join(this_directory, "README.md"), encoding="utf-8") as f:
     long_description = f.read()
 
+version = {}
+with open(
+    path.join(this_directory, "src", "wagtail_headless_preview", "version.py")
+) as f:
+    exec(f.read(), version)
 
 setup(
     name="wagtail-headless-preview",
-    version=__version__,
+    version=version["__version__"],
     description="Enhance Wagtail previews in headless setups.",
     long_description=long_description,
     long_description_content_type="text/markdown",

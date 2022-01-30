@@ -1,7 +1,13 @@
-default_app_config = "wagtail_headless_preview.apps.WagtailHeadlessPreviewConfig"
+from django import VERSION as DJANGO_VERSION
 
-VERSION = (0, 1, 4)
-__version__ = ".".join(map(str, VERSION))
+from .version import VERSION, __version__  # noqa
+
+
+if DJANGO_VERSION >= (3, 2):
+    # The declaration is only needed for older Django versions
+    pass
+else:
+    default_app_config = "wagtail_headless_preview.apps.WagtailHeadlessPreviewConfig"
 
 
 def setup():
