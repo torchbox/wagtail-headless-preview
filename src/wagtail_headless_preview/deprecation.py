@@ -1,6 +1,9 @@
-class RemovedInWagtailHeadlessPreivew030Warning(PendingDeprecationWarning):
+class RemovedInWagtailHeadlessPreview030Warning(DeprecationWarning):
     pass
 
 
-class RemovedInWagtailHeadlessPreivew040Warning(DeprecationWarning):
+class RemovedInWagtailHeadlessPreview040Warning(PendingDeprecationWarning):
     pass
+
+
+removed_in_next_version_warning = RemovedInWagtailHeadlessPreview030Warning
