@@ -99,6 +99,9 @@ class WagtailHeadlessPreviewSettings:
                 )
                 if setting_in_user_settings:
                     user_settings[new_setting] = user_settings[old_setting]
+                else:
+                    user_settings[new_setting] = getattr(settings, old_setting)
+
         for removed_setting in REMOVED_SETTINGS:
             if removed_setting in user_settings or hasattr(settings, removed_setting):
                 raise RuntimeError(
