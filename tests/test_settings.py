@@ -3,6 +3,7 @@ from unittest.mock import patch
 from django.test import TestCase, override_settings
 
 from wagtail_headless_preview.settings import (
+    DEFAULTS,
     WagtailHeadlessPreviewSettings,
     headless_preview_settings,
 )
@@ -47,6 +48,16 @@ class SettingsTests(TestCase):
         )
         with self.assertWarnsMessage(PendingDeprecationWarning, msg):
             WagtailHeadlessPreviewSettings({"HEADLESS_PREVIEW_CLIENT_URLS": {}})
+
+        with override_settings(
+            HEADLESS_PREVIEW_CLIENT_URLS={"default": "https://old.headless.site"}
+        ):
+            headless_preview_settings = WagtailHeadlessPreviewSettings(None, DEFAULTS)
+            with self.assertWarnsMessage(PendingDeprecationWarning, msg):
+                self.assertEqual(
+                    headless_preview_settings.CLIENT_URLS,
+                    {"default": "https://old.headless.site"},
+                )
 
     @patch("wagtail_headless_preview.settings.REMOVED_SETTINGS", ["A_REMOVED_SETTING"])
     def test_runtime_error_raised_on_removed_setting(self):
