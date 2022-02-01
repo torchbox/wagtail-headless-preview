@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1] - 2022-02-01
+
+## Fixed
+- Deprecated settings not handled correctly. Thanks to @Schille for the report.
+
 ## [0.2.0] - 2022-01-30
 
 This release adds a number of useful features such as a default client URL placeholder,
@@ -28,7 +33,7 @@ WAGTAIL_HEADLESS_PREVIEW = {
 
 - Add support for a `{SITE_ROOT_URL}` placeholder in "default" preview client URL ([#20](https://github.com/torchbox/wagtail-headless-preview/pull/20)) - Thanks @jaap3
 - Add [pre-commit](https://pre-commit.com/) support ([#21](https://github.com/torchbox/wagtail-headless-preview/pull/21)) - @zerolab
-- Add `HeadlessMixin` and `HeadlessServeMixin` ([#22](https://github.com/torchbox/wagtail-headless-preview/pull/22)) - @zerolab
+- Add `HeadlessMixin` and `HeadlessServeMixin` ([#22](https://github.com/torchbox/wagtail-headless-preview/pull/22)) - @zerolab based on code from @tbrlpld
 - Add setting to redirect to the client preview URL ([#23](https://github.com/torchbox/wagtail-headless-preview/pull/23)) - @zerolab based on real world code from @jaap3
 
 ### Changed
