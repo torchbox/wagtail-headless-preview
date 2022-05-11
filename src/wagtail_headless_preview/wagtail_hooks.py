@@ -1,7 +1,11 @@
 from django.conf import settings
 from django.utils.html import format_html_join
 
-from wagtail.core import hooks
+# Ensure backwards compatability < 3.0
+try:
+    from wagtail import hooks
+except ImportError:
+    from wagtail.core import hooks
 
 from wagtail_headless_preview.settings import headless_preview_settings
 
