@@ -4,7 +4,12 @@ from django.conf.urls import include
 from django.urls import path
 
 from wagtail.admin import urls as wagtailadmin_urls
-from wagtail.core import urls as wagtail_urls
+
+
+try:
+    from wagtail import urls as wagtail_urls
+except ImportError:
+    from wagtail.core import urls as wagtail_urls
 
 from tests.testapp.api import api_router
 

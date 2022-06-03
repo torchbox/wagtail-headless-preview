@@ -1,5 +1,7 @@
 import os
 
+from wagtail import VERSION as WAGTAIL_VERSION
+
 
 DEBUG = "INTERACTIVE" in os.environ
 
@@ -15,7 +17,7 @@ INSTALLED_APPS = [
     "wagtail.images",
     "wagtail.documents",
     "wagtail.admin",
-    "wagtail.core",
+    "wagtail" if WAGTAIL_VERSION >= (3, 0) else "wagtail.core",
     "wagtail.api.v2",
     "taggit",
     "django.contrib.auth",
