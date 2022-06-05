@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.3] - 2022-06-05
+
 ### Added
 
  - Support for Wagtail 3.0
@@ -18,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Fixed
 - Deprecated settings not handled correctly. Thanks to @Schille for the report.
 
-## [0.2.0] - 2022-01-30
+## [0.2] - 2022-01-30
 
 This release adds a number of useful features such as a default client URL placeholder,
 ability to redirect to the front-end URLs when viewing a page in the Wagtail admin, and
@@ -64,7 +67,7 @@ WAGTAIL_HEADLESS_PREVIEW = {
   on some systems when trying to `pip install`
 
 
-## [0.1.0] - 2019-08-20
+## [0.1] - 2019-08-20
 
 ### Added
 
@@ -76,7 +79,9 @@ WAGTAIL_HEADLESS_PREVIEW = {
 
 Initial release
 
-[unreleased]: https://github.com/wagtail/wagtail-localize/compare/v0.2.0...HEAD
-[0.2.0]: https://github.com/wagtail/wagtail-localize/compare/v0.2.0...v0.1.4
-[0.1.4]: https://github.com/wagtail/wagtail-localize/compare/v0.1.4...v0.1.0
-[0.1.0]: https://github.com/wagtail/wagtail-localize/compare/v0.1.0..v0.0.2
+[unreleased]: https://github.com/torchbox/wagtail-headless-preview/compare/v0.3.0...HEAD
+[0.3]: https://github.com/torchbox/wagtail-headless-preview/compare/v0.2.1...v0.3.0
+[0.2.1]: https://github.com/torchbox/wagtail-headless-preview/compare/v0.2.0...v0.2.1
+[0.2]: https://github.com/torchbox/wagtail-headless-preview/compare/v0.1.4...v0.2.0
+[0.1.4]: https://github.com/torchbox/wagtail-headless-preview/compare/v0.1.0...v0.1.4
+[0.1]: https://github.com/torchbox/wagtail-headless-preview/compare/c84cb15...v0.1.0
