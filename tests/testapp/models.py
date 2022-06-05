@@ -1,4 +1,7 @@
-from wagtail.core.models import Page
+try:
+    from wagtail.models import Page
+except ImportError:
+    from wagtail.core.models import Page
 
 from wagtail_headless_preview.models import HeadlessMixin, HeadlessPreviewMixin
 
