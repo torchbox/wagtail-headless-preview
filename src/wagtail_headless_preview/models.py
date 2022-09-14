@@ -41,7 +41,9 @@ def get_client_root_url_from_site(site):
             SITE_ROOT_URL=site.root_url
         )
 
-    root_url = root_url.rstrip("/") + "/"
+    if headless_preview_settings.ENFORCE_TRAILING_SLASH:
+        root_url = root_url.rstrip("/") + "/"
+
     return root_url
 
 
