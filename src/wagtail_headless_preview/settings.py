@@ -13,10 +13,6 @@ import warnings
 from django.conf import settings
 from django.test.signals import setting_changed
 
-from wagtail_headless_preview.deprecation import (
-    RemovedInWagtailHeadlessPreview040Warning,
-)
-
 
 DEFAULTS = {
     "CLIENT_URLS": {},
@@ -27,21 +23,10 @@ DEFAULTS = {
 }
 
 # List of settings that have been deprecated
-DEPRECATED_SETTINGS = [
-    (
-        "HEADLESS_PREVIEW_CLIENT_URLS",
-        "CLIENT_URLS",
-        RemovedInWagtailHeadlessPreview040Warning,
-    ),
-    (
-        "HEADLESS_PREVIEW_LIVE",
-        "LIVE_PREVIEW",
-        RemovedInWagtailHeadlessPreview040Warning,
-    ),
-]
+DEPRECATED_SETTINGS = []
 
 # List of settings that have been removed
-REMOVED_SETTINGS = []
+REMOVED_SETTINGS = ["HEADLESS_PREVIEW_CLIENT_URLS", "HEADLESS_PREVIEW_LIVE"]
 
 
 class WagtailHeadlessPreviewSettings:

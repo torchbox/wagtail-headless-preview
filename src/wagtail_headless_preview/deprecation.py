@@ -1,9 +1,10 @@
-class RemovedInWagtailHeadlessPreview030Warning(DeprecationWarning):
+class RemovedInWagtailHeadlessPreview050Warning(DeprecationWarning):
     pass
 
 
-class RemovedInWagtailHeadlessPreview040Warning(PendingDeprecationWarning):
+class RemovedInWagtailHeadlessPreview060Warning(PendingDeprecationWarning):
     pass
 
 
-removed_in_next_version_warning = RemovedInWagtailHeadlessPreview030Warning
+removed_in_next_version_warning = RemovedInWagtailHeadlessPreview050Warning
+pending_deprecation_warning = RemovedInWagtailHeadlessPreview060Warning

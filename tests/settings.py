@@ -82,3 +82,5 @@ WAGTAIL_HEADLESS_PREVIEW = {"CLIENT_URLS": {"default": "http://localhost:8020/"}
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_URLS_REGEX = r"^/api/v2/"
+
+WAGTAILADMIN_BASE_URL = "http://testserver"
