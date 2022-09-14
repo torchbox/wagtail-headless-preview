@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4] - 2022-09-14
+
+### Added
+
+- New `ENFORCE_TRAILING_SLASH` setting option to control the trailing slash on the preview URLs.
+- Official support for Wagtail 4.0, plus PyPI trove classifiers
+
+### Removed
+
+- Removed support for the deprecated `HEADLESS_PREVIEW_CLIENT_URLS` and `HEADLESS_PREVIEW_LIVE`. You should
+  see a runtime error if you are still using these settings.
+
 ## [0.3] - 2022-06-05
 
 ### Added
@@ -79,7 +91,8 @@ WAGTAIL_HEADLESS_PREVIEW = {
 
 Initial release
 
-[unreleased]: https://github.com/torchbox/wagtail-headless-preview/compare/v0.3.0...HEAD
+[unreleased]: https://github.com/torchbox/wagtail-headless-preview/compare/v0.4.0...HEAD
+[0.4]: https://github.com/torchbox/wagtail-headless-preview/compare/v0.3.0...v0.4.0
 [0.3]: https://github.com/torchbox/wagtail-headless-preview/compare/v0.2.1...v0.3.0
 [0.2.1]: https://github.com/torchbox/wagtail-headless-preview/compare/v0.2.0...v0.2.1
 [0.2]: https://github.com/torchbox/wagtail-headless-preview/compare/v0.1.4...v0.2.0
