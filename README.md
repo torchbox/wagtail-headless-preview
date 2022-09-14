@@ -39,7 +39,7 @@ Run migrations:
 $ python manage.py migrate
 ```
 
-Then configure the preview client URL using the `HEADLESS_PREVIEW_CLIENT_URLS` setting.
+Then configure the preview client URL using the `CLIENT_URLS` option in the `WAGTAIL_HEADLESS_PREVIEW` setting.
 
 ## Configuration
 
@@ -53,6 +53,7 @@ WAGTAIL_HEADLESS_PREVIEW = {
     "LIVE_PREVIEW": False,  # set to True to enable live preview functionality
     "SERVE_BASE_URL": None,  # can be used for HeadlessServeMixin
     "REDIRECT_ON_PREVIEW": False,  # set to True to redirect to the preview instead of using the Wagtail default mechanism
+    "ENFORCE_TRAILING_SLASH": True,  # set to False in order to disable the trailing slash enforcement
 }
 ```
 
@@ -83,7 +84,7 @@ The `{SITE_ROOT_URL}` placeholder is replaced with the `root_url` property of th
 
 ### Multi-site setup
 
-For a multi-site setup, add each site as a separate entry in the `HEADLESS_PREVIEW_CLIENT_URLS` dictionary:
+For a multi-site setup, add each site as a separate entry in the `CLIENT_URLS` option in the `WAGTAIL_HEADLESS_PREVIEW` setting:
 
 ```python
 WAGTAIL_HEADLESS_PREVIEW = {
@@ -102,7 +103,7 @@ To make the editing experience seamles and to avoid server errors due to missing
 you can use the `HeadlessMixin` which combines the `HeadlessServeMixin` and `HeadlessPreviewMixin` mixins.
 
 `HeadlessServeMixin` overrides the Wagtail `Page.serve` method to redirect to the client URL. By default,
-it uses the hosts defined in `CLIENT_URLS`. However you can provide a single URL to rule them all:
+it uses the hosts defined in `CLIENT_URLS`. However, you can provide a single URL to rule them all:
 
 ```python
 # settings.py
@@ -128,6 +129,19 @@ WAGTAIL_HEADLESS_PREVIEW = {
 
 Note: Your front-end app must be set up for live preview, a feature that usually requires
 [Django Channels](https://github.com/django/channels/) or other WebSocket/async libraries.
+
+### Enforce trailing slash
+
+By default, `wagtail_headless_preview` enforces a trailing slash on the client URL. You can disable this behaviour by
+setting `ENFORCE_TRAILING_SLASH` to `False`:
+
+```python
+# settings.py
+WAGTAIL_HEADLESS_PREVIEW = {
+    # ...
+    "ENFORCE_TRAILING_SLASH": False
+}
+```
 
 ## Usage
 

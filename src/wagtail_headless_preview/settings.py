@@ -23,6 +23,7 @@ DEFAULTS = {
     "LIVE_PREVIEW": False,
     "SERVE_BASE_URL": None,
     "REDIRECT_ON_PREVIEW": False,
+    "ENFORCE_TRAILING_SLASH": True,
 }
 
 # List of settings that have been deprecated

@@ -18,21 +18,23 @@ from wagtail_headless_preview.settings import headless_preview_settings
 class TestFrontendViews(TestCase):
     fixtures = ["test.json"]
 
-    def setUp(self):
-        self.admin_user = User.objects.create_superuser(
+    @classmethod
+    def setUpTestData(cls):
+        cls.admin_user = User.objects.create_superuser(
             username="admin", email="admin@example.com", password="password"
         )
 
-        self.homepage = Page.objects.get(url_path="/home/").specific
-        self.page = SimplePage(title="Simple page original", slug="simple-page")
-        self.homepage.add_child(instance=self.page)
+        cls.homepage = Page.objects.get(url_path="/home/").specific
+        cls.page = SimplePage(title="Simple page original", slug="simple-page")
+        cls.homepage.add_child(instance=cls.page)
 
-        self.page.title = "Simple page submitted"
-        self.page.save_revision()
+        cls.page.title = "Simple page submitted"
+        cls.page.save_revision()
 
-        self.page.title = "Simple page with draft edit"
-        self.page.save_revision()
+        cls.page.title = "Simple page with draft edit"
+        cls.page.save_revision()
 
+    def setUp(self):
         self.client.login(username=self.admin_user.username, password="password")
 
     def test_view(self):
@@ -83,18 +85,40 @@ class TestFrontendViews(TestCase):
             fetch_redirect_response=False,
         )
 
+    @override_settings(
+        WAGTAIL_HEADLESS_PREVIEW={"CLIENT_URLS": {"default": "https://headless.site"}}
+    )
+    def test_get_client_root_url_with_default_trailing_slash_enforcement(self):
+        self.assertEqual(
+            self.page.get_client_root_url(),
+            "https://headless.site/",
+        )
+
+    @override_settings(
+        WAGTAIL_HEADLESS_PREVIEW={
+            "CLIENT_URLS": {"default": "https://headless.site"},
+            "ENFORCE_TRAILING_SLASH": False,
+        }
+    )
+    def test_get_client_root_url_without_trailing_slash_enforcement(self):
+        self.assertEqual(
+            self.page.get_client_root_url(),
+            "https://headless.site",
+        )
+
 
 class TestHeadlessRedirectMixin(TestCase):
     fixtures = ["test.json"]
 
-    def setUp(self):
-        self.admin_user = User.objects.create_superuser(
+    @classmethod
+    def setUpTestData(cls):
+        cls.admin_user = User.objects.create_superuser(
             username="admin", email="admin@example.com", password="password"
         )
 
-        self.homepage = Page.objects.get(url_path="/home/").specific
-        self.page = HeadlessPage(title="Simple page original", slug="simple-page")
-        self.homepage.add_child(instance=self.page)
+        cls.homepage = Page.objects.get(url_path="/home/").specific
+        cls.page = HeadlessPage(title="Simple page original", slug="simple-page")
+        cls.homepage.add_child(instance=cls.page)
 
     def test_serve(self):
         client_url = headless_preview_settings.CLIENT_URLS["default"].rstrip("/")
