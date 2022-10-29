@@ -3,7 +3,7 @@
 [![Build status](https://img.shields.io/github/workflow/status/torchbox/wagtail-headless-preview/CI/main?style=for-the-badge)](https://github.com/torchbox/wagtail-headless-preview/actions)
 [![PyPI](https://img.shields.io/pypi/v/wagtail-headless-preview.svg?style=for-the-badge)](https://pypi.org/project/wagtail-headless-preview/)
 [![black](https://img.shields.io/badge/code%20style-black-000000.svg?style=for-the-badge)](https://github.com/psf/black)
-[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white&style=for-the-badge)](https://github.com/pre-commit/pre-commit)
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/torchbox/wagtail-headless-preview/main.svg)](https://results.pre-commit.ci/latest/github/torchbox/wagtail-headless-preview/main)
 
 
 ## Overview
