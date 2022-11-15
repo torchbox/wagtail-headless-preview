@@ -106,6 +106,15 @@ class TestFrontendViews(TestCase):
             "https://headless.site",
         )
 
+    def test_create_page_preview_race(self):
+        self.page.create_page_preview()
+
+        self.page.title = "Another edit so JSON changes"
+        self.page.save_revision()
+
+        # This shouldn't hit a unique constraint error
+        self.page.create_page_preview()
+
 
 class TestHeadlessRedirectMixin(TestCase):
     fixtures = ["test.json"]
