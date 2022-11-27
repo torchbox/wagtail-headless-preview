@@ -78,13 +78,6 @@ class SettingsTests(TestCase):
                 {"HEADLESS_PREVIEW_CLIENT_URLS": "something"}, DEFAULTS
             )
 
-        msg = (
-            "The 'HEADLESS_PREVIEW_LIVE' setting has been removed. "
-            "Please refer to the wagtail_headless_preview documentation for available settings."
-        )
-        with self.assertRaisesMessage(RuntimeError, msg):
-            WagtailHeadlessPreviewSettings({"HEADLESS_PREVIEW_LIVE": True}, DEFAULTS)
-
         with patch(
             "wagtail_headless_preview.settings.REMOVED_SETTINGS", ["A_REMOVED_SETTING"]
         ):

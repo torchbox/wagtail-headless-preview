@@ -8,6 +8,7 @@ from django.shortcuts import redirect, render
 from django.utils.http import urlencode
 
 from wagtail_headless_preview.settings import headless_preview_settings
+from wagtail_headless_preview.signals import preview_update
 
 
 class PagePreview(models.Model):
@@ -52,14 +53,31 @@ class HeadlessPreviewMixin:
     def get_preview_signer(cls):
         return TimestampSigner(salt="headlesspreview.token")
 
+    @classmethod
+    def get_content_type_str(cls):
+        return cls._meta.app_label + "." + cls.__name__.lower()
+
+    @classmethod
+    def get_page_from_preview_token(cls, token):
+        content_type = ContentType.objects.get_for_model(cls)
+
+        # Check token is valid
+        cls.get_preview_signer().unsign(token)
+
+        try:
+            return PagePreview.objects.get(
+                content_type=content_type, token=token
+            ).as_page()
+        except PagePreview.DoesNotExist:
+            return
+
     def create_page_preview(self):
         if self.pk is None:
-            identifier = "parent_id=%d;page_type=%s" % (
-                self.get_parent().pk,
-                self._meta.label,
+            identifier = (
+                f"parent_id={self.get_parent().pk};page_type={self._meta.label}"
             )
         else:
-            identifier = "id=%d" % self.pk
+            identifier = f"id={self.pk}"
 
         token = self.get_preview_signer().sign(identifier)
         # Note: Using update_page_preview() instead of just create() to avoid unique constraint
@@ -80,10 +98,6 @@ class HeadlessPreviewMixin:
     def get_client_root_url(self):
         return get_client_root_url_from_site(self.get_site())
 
-    @classmethod
-    def get_content_type_str(cls):
-        return cls._meta.app_label + "." + cls.__name__.lower()
-
     def get_preview_url(self, token):
         return (
             self.get_client_root_url()
@@ -91,34 +105,15 @@ class HeadlessPreviewMixin:
             + urlencode({"content_type": self.get_content_type_str(), "token": token})
         )
 
-    def dummy_request(self, original_request=None, **meta):
-        request = super(HeadlessPreviewMixin, self).dummy_request(
-            original_request=original_request, **meta
-        )
-        request.GET = request.GET.copy()
-        request.GET["live_preview"] = original_request.GET.get("live_preview")
-        return request
+    def serve_preview(self, request, preview_mode):
+        PagePreview.garbage_collect()
+        page_preview = self.create_page_preview()
+        page_preview.save()
 
-    def serve_preview(self, request, mode_name):
-        use_live_preview = request.GET.get("live_preview")
-        token = request.COOKIES.get("used-token")
+        # Send the preview_update signal. Other apps can implement their own handling
+        preview_update.send(sender=HeadlessPreviewMixin, token=page_preview.token)
 
-        if use_live_preview and token:
-            page_preview, existed = self.update_page_preview(token)
-            PagePreview.garbage_collect()
-
-            # Imported locally as live preview is optional
-            from wagtail_headless_preview.signals import preview_update
-
-            preview_update.send(sender=HeadlessPreviewMixin, token=token)
-        else:
-            PagePreview.garbage_collect()
-            page_preview = self.create_page_preview()
-            page_preview.save()
-
-        response_token = token or page_preview.token
-        preview_url = self.get_preview_url(response_token)
-
+        preview_url = self.get_preview_url(page_preview.token)
         if headless_preview_settings.REDIRECT_ON_PREVIEW:
             return redirect(preview_url)
 
@@ -128,25 +123,7 @@ class HeadlessPreviewMixin:
             {"preview_url": preview_url},
         )
 
-        if use_live_preview:
-            # Set cookie that auto-expires after 5mins
-            response.set_cookie(key="used-token", value=response_token, max_age=300)
-
         return response
-
-    @classmethod
-    def get_page_from_preview_token(cls, token):
-        content_type = ContentType.objects.get_for_model(cls)
-
-        # Check token is valid
-        cls.get_preview_signer().unsign(token)
-
-        try:
-            return PagePreview.objects.get(
-                content_type=content_type, token=token
-            ).as_page()
-        except PagePreview.DoesNotExist:
-            return
 
 
 class HeadlessServeMixin:
