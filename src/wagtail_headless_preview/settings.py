@@ -16,7 +16,6 @@ from django.test.signals import setting_changed
 
 DEFAULTS = {
     "CLIENT_URLS": {},
-    "LIVE_PREVIEW": False,
     "SERVE_BASE_URL": None,
     "REDIRECT_ON_PREVIEW": False,
     "ENFORCE_TRAILING_SLASH": True,
@@ -26,7 +25,7 @@ DEFAULTS = {
 DEPRECATED_SETTINGS = []
 
 # List of settings that have been removed
-REMOVED_SETTINGS = ["HEADLESS_PREVIEW_CLIENT_URLS", "HEADLESS_PREVIEW_LIVE"]
+REMOVED_SETTINGS = ["HEADLESS_PREVIEW_CLIENT_URLS"]
 
 
 class WagtailHeadlessPreviewSettings:

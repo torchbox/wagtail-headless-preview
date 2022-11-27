@@ -50,7 +50,6 @@ Then configure the preview client URL using the `CLIENT_URLS` option in the `WAG
 
 WAGTAIL_HEADLESS_PREVIEW = {
     "CLIENT_URLS": {},  # defaults to an empty dict. You must at the very least define the default client URL.
-    "LIVE_PREVIEW": False,  # set to True to enable live preview functionality
     "SERVE_BASE_URL": None,  # can be used for HeadlessServeMixin
     "REDIRECT_ON_PREVIEW": False,  # set to True to redirect to the preview instead of using the Wagtail default mechanism
     "ENFORCE_TRAILING_SLASH": True,  # set to False in order to disable the trailing slash enforcement
@@ -113,22 +112,6 @@ WAGTAIL_HEADLESS_PREVIEW = {
     "SERVE_BASE_URL": "https://my.headless.site",
 }
 ```
-
-### Live preview
-
-Optionally, you can enable live preview functionality with the `LIVE_PREVIEW` setting:
-
-```python
-# settings.py
-
-WAGTAIL_HEADLESS_PREVIEW = {
-    # ...
-    "LIVE_PREVIEW": True,
-}
-```
-
-Note: Your front-end app must be set up for live preview, a feature that usually requires
-[Django Channels](https://github.com/django/channels/) or other WebSocket/async libraries.
 
 ### Enforce trailing slash
 

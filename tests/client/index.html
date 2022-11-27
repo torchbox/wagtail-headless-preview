@@ -10,7 +10,7 @@
                 params[decodeURIComponent(key)] = decodeURIComponent(value);
             });
 
-            var apiUrl = 'http://localhost:8000/api/v2/page_preview/1/?content_type=' + encodeURIComponent(params['content_type']) + '&token=' + encodeURIComponent(params['token']) + '&format=json';
+            var apiUrl = 'http://localhost:8000/api/v2/page_preview/?content_type=' + encodeURIComponent(params['content_type']) + '&token=' + encodeURIComponent(params['token']) + '&format=json';
             fetch(apiUrl).then(function(response) {
                 response.text().then(function(text) {
                     document.body.innerText = text;
