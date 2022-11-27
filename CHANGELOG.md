@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5] - 2022-11-27
+
+### Fixed
+
+- Race condition in `create_page_view` ([#35](https://github.com/torchbox/wagtail-headless-preview/pull/35)) @johncarter-phntm
+
+### Removed
+
+- `LIVE_PREVIEW` setting and related code. It was not fit for purpose
+
 ## [0.4] - 2022-09-14
 
 ### Added
