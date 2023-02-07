@@ -3,12 +3,7 @@ from django.test import TestCase, override_settings
 from django.urls import reverse
 from django.utils.http import urlencode
 
-
-try:
-    from wagtail.models import Page
-except ImportError:
-    # Wagtail<3.0
-    from wagtail.core.models import Page
+from wagtail.models import Page
 
 from tests.testapp.models import HeadlessPage, SimplePage
 from wagtail_headless_preview.models import PagePreview
