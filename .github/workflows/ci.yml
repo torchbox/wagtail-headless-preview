@@ -17,10 +17,10 @@ jobs:
 
     strategy:
       matrix:
-        python-version: ["3.8", "3.9", "3.10"]
+        python-version: ["3.8", "3.9", "3.10", "3.11"]
         experimental: [false]
         include:
-          - python-version: "3.10"
+          - python-version: "3.11"
             toxenv: "notwagtailmain"
             experimental: false
           - python-version: "3.x"

@@ -26,7 +26,7 @@ setup(
     package_dir={"": "src"},
     include_package_data=True,
     license="BSD",
-    install_requires=["wagtail>=2.15"],
+    install_requires=["wagtail>=4.1"],
     extras_require={"testing": ["tox", "django-cors-headers"]},
     keywords=["wagtail", "django", "headless"],
     classifiers=[
@@ -47,8 +47,6 @@ setup(
         "Framework :: Django :: 4.0",
         "Framework :: Django :: 4.1",
         "Framework :: Wagtail",
-        "Framework :: Wagtail :: 2",
-        "Framework :: Wagtail :: 3",
         "Framework :: Wagtail :: 4",
         "Topic :: Internet :: WWW/HTTP",
         "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
