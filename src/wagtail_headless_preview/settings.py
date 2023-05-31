@@ -81,6 +81,7 @@ class WagtailHeadlessPreviewSettings:
                     f"removed in the next release, use "
                     f'WAGTAIL_HEADLESS_PREVIEW["{new_setting}"] instead.',
                     category=category,
+                    stacklevel=2,
                 )
                 if setting_in_user_settings:
                     user_settings[new_setting] = user_settings[old_setting]
