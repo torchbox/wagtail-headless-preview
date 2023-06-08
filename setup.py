@@ -26,6 +26,7 @@ setup(
     package_dir={"": "src"},
     include_package_data=True,
     license="BSD",
+    python_requires=">=3.8",
     install_requires=["wagtail>=4.1"],
     extras_require={"testing": ["tox", "django-cors-headers"]},
     keywords=["wagtail", "django", "headless"],
