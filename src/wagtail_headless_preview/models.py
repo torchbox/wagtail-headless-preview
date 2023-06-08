@@ -80,8 +80,8 @@ class HeadlessPreviewMixin:
             identifier = f"id={self.pk}"
 
         token = self.get_preview_signer().sign(identifier)
-        # Note: Using update_page_preview() instead of just create() to avoid unique constraint
-        # failures if preview is clicked multiple times
+        # Note: Using update_page_preview() instead of just create() to avoid
+        # unique constraint failures if preview is clicked multiple times
         preview, _ = self.update_page_preview(token)
 
         return preview
@@ -132,8 +132,9 @@ class HeadlessServeMixin:
         Mixin overriding the default serve method with a redirect.
         The URL of the requested page is kept the same, only the host is
         overridden.
-        By default this uses the hosts defined in HEADLESS_PREVIEW_CLIENT_URLS.
-        However, you can enforce a single host using  the HEADLESS_SERVE_BASE_URL setting.
+        By default, this uses the hosts defined in HEADLESS_PREVIEW_CLIENT_URLS.
+        However, you can enforce a single host using the HEADLESS_SERVE_BASE_URL
+        setting.
         """
         if headless_preview_settings.SERVE_BASE_URL:
             base_url = headless_preview_settings.SERVE_BASE_URL

@@ -1,7 +1,6 @@
 from unittest.mock import patch
 
 from django.test import TestCase, override_settings
-
 from wagtail_headless_preview.deprecation import pending_deprecation_warning
 from wagtail_headless_preview.settings import (
     DEFAULTS,
@@ -68,10 +67,10 @@ class SettingsTests(TestCase):
                 )
 
     def test_runtime_error_raised_on_removed_setting(self):
-
         msg = (
             "The 'HEADLESS_PREVIEW_CLIENT_URLS' setting has been removed. "
-            "Please refer to the wagtail_headless_preview documentation for available settings."
+            "Please refer to the wagtail_headless_preview documentation for "
+            "available settings."
         )
         with self.assertRaisesMessage(RuntimeError, msg):
             WagtailHeadlessPreviewSettings(

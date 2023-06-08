@@ -1,5 +1,7 @@
 """
-The wagtail_headless_preview settings are namespaced in the WAGTAIL_HEADLESS_PREVIEW setting.
+The wagtail_headless_preview settings are namespaced in the
+WAGTAIL_HEADLESS_PREVIEW setting.
+
 For example your project's `settings.py` file might look like this:
 WAGTAIL_HEADLESS_PREVIEW = {
     "CLIENT_URLS": {"default": "https://headless.site"},
@@ -30,8 +32,8 @@ REMOVED_SETTINGS = ["HEADLESS_PREVIEW_CLIENT_URLS"]
 
 class WagtailHeadlessPreviewSettings:
     """
-    A settings object that allows the wagtail_headless_preview settings to be accessed as
-    properties. For example:
+    A settings object that allows the wagtail_headless_preview settings to be
+    accessed as properties. For example:
         from wagtail_headless_previews.settings import headless_preview_settings
         print(headless_preview_settings.CLIENT_URLS)
     Note:
