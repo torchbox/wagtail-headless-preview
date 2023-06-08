@@ -1,6 +1,6 @@
 # [Wagtail Headless Preview](https://pypi.org/project/wagtail-headless-preview/)
 
-[![Build status](https://img.shields.io/github/workflow/status/torchbox/wagtail-headless-preview/CI/main?style=for-the-badge)](https://github.com/torchbox/wagtail-headless-preview/actions)
+[![Build status](https://img.shields.io/github/actions/workflow/status/torchbox/wagtail-headless-preview/ci.yml?style=for-the-badge)](https://github.com/torchbox/wagtail-headless-preview/actions)
 [![PyPI](https://img.shields.io/pypi/v/wagtail-headless-preview.svg?style=for-the-badge)](https://pypi.org/project/wagtail-headless-preview/)
 [![black](https://img.shields.io/badge/code%20style-black-000000.svg?style=for-the-badge)](https://github.com/psf/black)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/torchbox/wagtail-headless-preview/main.svg)](https://results.pre-commit.ci/latest/github/torchbox/wagtail-headless-preview/main)
@@ -313,8 +313,8 @@ Now you can run tests as shown below:
 tox -p
 ```
 
-or, you can run them for a specific environment `tox -e py39-django3.2-wagtail2.15` or specific test
-`tox -e py310-django3.2-wagtail2.15 wagtail_headless_preview.tests.test_frontend.TestFrontendViews.test_redirect_on_preview`
+or, you can run them for a specific environment `tox -e py39-django3.2-wagtail4.1` or specific test
+`tox -e py310-django3.2-wagtail4.1 wagtail_headless_preview.tests.test_frontend.TestFrontendViews.test_redirect_on_preview`
 
 ## Credits
 

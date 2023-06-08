@@ -7,8 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-- Wagtail 4.2 support
-- Drop support for Wagtail < 4.1
+## [0.6] - 2023-06-08
+
+- Add Wagtail 4.2 support and drop support for Wagtail < 4.1
+- The minimum supported Python version is 3.8
+- Switched to using ruff
 
 ## [0.5] - 2022-11-27
 
