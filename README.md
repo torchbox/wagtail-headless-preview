@@ -1,8 +1,9 @@
 # [Wagtail Headless Preview](https://pypi.org/project/wagtail-headless-preview/)
 
-[![Build status](https://img.shields.io/github/actions/workflow/status/torchbox/wagtail-headless-preview/ci.yml?style=for-the-badge)](https://github.com/torchbox/wagtail-headless-preview/actions)
-[![PyPI](https://img.shields.io/pypi/v/wagtail-headless-preview.svg?style=for-the-badge)](https://pypi.org/project/wagtail-headless-preview/)
-[![black](https://img.shields.io/badge/code%20style-black-000000.svg?style=for-the-badge)](https://github.com/psf/black)
+[![Build status](https://img.shields.io/github/actions/workflow/status/torchbox/wagtail-headless-preview/test.yml)](https://github.com/torchbox/wagtail-headless-preview/actions)
+[![PyPI](https://img.shields.io/pypi/v/wagtail-headless-preview.svg)](https://pypi.org/project/wagtail-headless-preview/)
+[![black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/torchbox/wagtail-headless-preview/main.svg)](https://results.pre-commit.ci/latest/github/torchbox/wagtail-headless-preview/main)
 
 
@@ -132,6 +133,7 @@ To enable preview as well as wire in the "View live" button in the Wagtail UI, a
 to your `Page` class:
 
 ```python
+from wagtail.models import Page
 from wagtail_headless_preview.models import HeadlessMixin
 
 
@@ -143,6 +145,7 @@ If you require more granular control, or if you've modified you `Page` model's `
 add `HeadlessPreviewMixin` to your `Page` class to only handle previews:
 
 ```python
+from wagtail.models import Page
 from wagtail_headless_preview.models import HeadlessPreviewMixin
 
 
@@ -313,8 +316,8 @@ Now you can run tests as shown below:
 tox -p
 ```
 
-or, you can run them for a specific environment `tox -e py39-django3.2-wagtail4.1` or specific test
-`tox -e py310-django3.2-wagtail4.1 wagtail_headless_preview.tests.test_frontend.TestFrontendViews.test_redirect_on_preview`
+or, you can run them for a specific environment `tox -e py311-django4.2-wagtail5.1` or specific test
+`tox -e py311-django4.2-wagtail5.0 -- wagtail_headless_preview.tests.test_frontend.TestFrontendViews.test_redirect_on_preview`
 
 ## Credits
 
