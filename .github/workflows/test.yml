@@ -31,11 +31,12 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - uses: actions/setup-python@v4
+    - name: 🐍 Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
 
-    - name: Start dummy client
+    - name: 🌍 Start dummy client
       uses: Eun/http-server-action@v1
       with:
         directory: ${{ github.workspace }}/wagtail_headless_preview/tests/client
@@ -49,10 +50,52 @@ jobs:
             "txt": "text/plain"
           }
 
-    - name: Install dependencies
+    - name: ⬇️ Install dependencies
       run: |
         python -Im pip install --upgrade pip setuptools wheel
         python -Im pip install --upgrade tox tox-gh-actions
 
-    - name: Run tox targets for Python ${{ matrix.python-version }}
+    - name: 🧪 Run tox targets for Python ${{ matrix.python-version }}
       run: tox
+
+    - name: ⬆️ Upload coverage data
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage-data
+        path: .coverage.*
+        if-no-files-found: ignore
+        retention-days: 1
+
+  coverage:
+    runs-on: ubuntu-latest
+    needs: tests
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v4
+        with:
+          # Use latest Python, so it understands all syntax.
+          python-version: ${{env.PYTHON_LATEST}}
+
+      - run: python -Im pip install --upgrade coverage[toml]
+
+      - name: Download coverage data
+        uses: actions/download-artifact@v3
+        with:
+          name: coverage-data
+
+      - name: ＋  Combine coverage
+        run: |
+          python -Im coverage combine
+          python -Im coverage html --skip-covered --skip-empty
+          python -Im coverage report
+          echo "## Coverage summary" >> $GITHUB_STEP_SUMMARY
+          python -Im coverage report --format=markdown >> $GITHUB_STEP_SUMMARY
+
+      - name: 📈 Upload HTML report if check failed.
+        uses: actions/upload-artifact@v3
+        with:
+          name: html-report
+          path: htmlcov
