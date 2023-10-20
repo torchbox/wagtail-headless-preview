@@ -68,9 +68,6 @@ exclude = [
     "runtests.py",
 ]
 
-[tool.black]
-target-version = ["py38"]
-
 [tool.ruff]
 target-version = "py38"
 select = [
