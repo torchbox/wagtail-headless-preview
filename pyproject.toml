@@ -1,3 +1,69 @@
+[project]
+name = "wagtail-headless-preview"
+description = "Enhance Wagtail previews in headless setups."
+authors = [{name = "Dan Braghis", email = "dan.braghis@torchbox.com"}]
+readme = "README.md"
+license = {file = "LICENSE"}
+keywords = ["Wagtail", "Django", "headless"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Web Environment",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Framework :: Django",
+    "Framework :: Django :: 3.2",
+    "Framework :: Django :: 4.1",
+    "Framework :: Django :: 4.2",
+    "Framework :: Django :: 5.0",
+    "Framework :: Wagtail",
+    "Framework :: Wagtail :: 4",
+    "Framework :: Wagtail :: 5",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+]
+
+dynamic = ["version"]
+requires-python = ">=3.8"
+dependencies = ["Wagtail>=4.1"]
+
+[project.optional-dependencies]
+testing = ["tox>=4", "django-cors-headers"]
+
+[project.urls]
+repository = "https://github.com/torchbox/wagtail-headless-preview"
+changelog = "https://github.com/torchbox/wagtail-headless-preview/blob/main/CHANGELOG.md"
+issues = "https://github.com/torchbox/wagtail-headless-preview/issues"
+
+
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[tool.flit.module]
+name = "wagtail_headless_preview"
+
+[tool.flit.sdist]
+exclude = [
+    "tests",
+    "Makefile",
+    ".*",
+    "*.json",
+    "*.ini",
+    "*.yml",
+    "*.yaml",
+    "CHANGELOG.md",
+    "manage.py",
+    "runtests.py",
+]
+
 [tool.black]
 target-version = ["py38"]
 
