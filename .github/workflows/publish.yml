@@ -2,27 +2,30 @@ name: Publish to PyPI
 
 on:
   release:
-    types: [released, prereleased]
+    types: [published]
 
 jobs:
   build_and_publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read # to fetch code (actions/checkout)
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Set up Python 3.8
+      - name: Set up Python 3.11
         uses: actions/setup-python@v4
         with:
-          python-version: '3.8'
+          python-version: '3.11'
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install wheel
+          python -m pip install flit
+          python -m flit install --symlink
       - name: Build
-        run: python setup.py sdist bdist_wheel
+        run: python -Im flit build
 
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
