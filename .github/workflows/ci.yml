@@ -10,6 +10,16 @@ concurrency:
   group: ${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
+permissions:
+  contents: read # to fetch code (actions/checkout)
+
+env:
+  FORCE_COLOR: "1" # Make tools pretty.
+  TOX_TESTENV_PASSENV: FORCE_COLOR
+  PIP_DISABLE_PIP_VERSION_CHECK: "1"
+  PIP_NO_PYTHON_VERSION_WARNING: "1"
+  PYTHON_LATEST: "3.12"
+
 jobs:
   tests:
     name: Python ${{ matrix.python-version }}
@@ -17,15 +27,7 @@ jobs:
 
     strategy:
       matrix:
-        python-version: ["3.8", "3.9", "3.10", "3.11"]
-        experimental: [false]
-        include:
-          - python-version: "3.11"
-            toxenv: "notwagtailmain"
-            experimental: false
-          - python-version: "3.x"
-            toxenv: "wagtailmain"
-            experimental: true
+        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
 
     steps:
     - uses: actions/checkout@v3
@@ -50,15 +52,8 @@ jobs:
 
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip setuptools wheel
-        python -m pip install --upgrade tox tox-py
+        python -Im pip install --upgrade pip setuptools wheel
+        python -Im pip install --upgrade tox tox-gh-actions
 
     - name: Run tox targets for Python ${{ matrix.python-version }}
-      if: ${{ matrix.toxenv != 'wagtailmain' }}
-      continue-on-error: ${{ matrix.experimental }}
-      run: tox --py current
-
-    - name: Run ${{ matrix.toxenv }} tox targets
-      if: ${{ matrix.toxenv == 'wagtailmain' }}
-      continue-on-error: ${{ matrix.experimental }}
-      run: tox -e ${{ matrix.toxenv }}
+      run: tox
