@@ -42,9 +42,9 @@ testing = [
 ]
 
 [project.urls]
-repository = "https://github.com/torchbox/wagtail-headless-preview"
-changelog = "https://github.com/torchbox/wagtail-headless-preview/blob/main/CHANGELOG.md"
-issues = "https://github.com/torchbox/wagtail-headless-preview/issues"
+Repository = "https://github.com/torchbox/wagtail-headless-preview"
+Changelog = "https://github.com/torchbox/wagtail-headless-preview/blob/main/CHANGELOG.md"
+Issues = "https://github.com/torchbox/wagtail-headless-preview/issues"
 
 
 [build-system]
