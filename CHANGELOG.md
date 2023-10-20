@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7] - 2023-10-20
+
 ### Added
 
 - Make Wagtail 5.1 and 5.2 support official  [#50](https://github.com/torchbox/wagtail-headless-preview/pull/50) Thanks @lparsons396, [#51](https://github.com/torchbox/wagtail-headless-preview/pull/51)
@@ -119,7 +121,8 @@ WAGTAIL_HEADLESS_PREVIEW = {
 
 Initial release
 
-[unreleased]: https://github.com/torchbox/wagtail-headless-preview/compare/v0.4.0...HEAD
+[unreleased]: https://github.com/torchbox/wagtail-headless-preview/compare/v0.7.0...HEAD
+[0.7]: https://github.com/torchbox/wagtail-headless-preview/compare/v0.8.0...v0.7.0
 [0.6]: https://github.com/torchbox/wagtail-headless-preview/compare/v0.5.0...v0.6.0
 [0.5]: https://github.com/torchbox/wagtail-headless-preview/compare/v0.4.0...v0.5.0
 [0.4]: https://github.com/torchbox/wagtail-headless-preview/compare/v0.3.0...v0.4.0
