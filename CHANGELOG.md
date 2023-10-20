@@ -7,9 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-- Make Wagtail 5.1 support official
+### Added
+
+- Make Wagtail 5.1 and 5.2 support official  [#50](https://github.com/torchbox/wagtail-headless-preview/pull/50) Thanks @lparsons396, [#51](https://github.com/torchbox/wagtail-headless-preview/pull/51)
+- Python 3.12 to the test matrix [#51](https://github.com/torchbox/wagtail-headless-preview/pull/51)
+
+### Changed
+
+- Switched to using [flit](https://flit.pypa.io/en/latest/) for packaging [#52](https://github.com/torchbox/wagtail-headless-preview/pull/52)
+- Switched to using [PyPI trusted publishing](https://docs.pypi.org/trusted-publishers/using-a-publisher/) [#53](https://github.com/torchbox/wagtail-headless-preview/pull/53)
 
 ## [0.6] - 2023-06-08
+
+### Changed
 
 - Add Wagtail 4.2 support and drop support for Wagtail < 4.1
 - The minimum supported Python version is 3.8
@@ -110,6 +120,8 @@ WAGTAIL_HEADLESS_PREVIEW = {
 Initial release
 
 [unreleased]: https://github.com/torchbox/wagtail-headless-preview/compare/v0.4.0...HEAD
+[0.6]: https://github.com/torchbox/wagtail-headless-preview/compare/v0.5.0...v0.6.0
+[0.5]: https://github.com/torchbox/wagtail-headless-preview/compare/v0.4.0...v0.5.0
 [0.4]: https://github.com/torchbox/wagtail-headless-preview/compare/v0.3.0...v0.4.0
 [0.3]: https://github.com/torchbox/wagtail-headless-preview/compare/v0.2.1...v0.3.0
 [0.2.1]: https://github.com/torchbox/wagtail-headless-preview/compare/v0.2.0...v0.2.1
