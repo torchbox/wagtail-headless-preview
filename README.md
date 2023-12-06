@@ -199,7 +199,7 @@ class PagePreviewAPIViewSet(PagesAPIViewSet):
     def listing_view(self, request):
         # Delegate to detail_view, specifically so there's no
         # difference between serialization formats.
-        self.action = 'detail_view'
+        self.action = "detail_view"
         return self.detail_view(request, 0)
 
     def detail_view(self, request, pk):
