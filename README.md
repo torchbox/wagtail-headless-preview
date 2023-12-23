@@ -197,9 +197,10 @@ class PagePreviewAPIViewSet(PagesAPIViewSet):
     )
 
     def listing_view(self, request):
-        page = self.get_object()
-        serializer = self.get_serializer(page)
-        return Response(serializer.data)
+        # Delegate to detail_view, specifically so there's no
+        # difference between serialization formats.
+        self.action = "detail_view"
+        return self.detail_view(request, 0)
 
     def detail_view(self, request, pk):
         page = self.get_object()
