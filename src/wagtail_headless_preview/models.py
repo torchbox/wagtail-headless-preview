@@ -19,6 +19,9 @@ class PagePreview(models.Model):
     content_json = models.TextField()
     created_at = models.DateField(auto_now_add=True)
 
+    def __str__(self):
+        return f"PagePreview: {self.token}, {self.created_at}"
+
     def as_page(self):
         content = json.loads(self.content_json)
         page_model = ContentType.objects.get_for_id(

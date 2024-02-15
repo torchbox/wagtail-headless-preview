@@ -1,6 +1,7 @@
 from unittest.mock import patch
 
 from django.test import TestCase, override_settings
+
 from wagtail_headless_preview.deprecation import pending_deprecation_warning
 from wagtail_headless_preview.settings import (
     DEFAULTS,
