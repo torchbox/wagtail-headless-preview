@@ -4,6 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
+    branches: [main]
 
 concurrency:
   group: ${{ github.head_ref || github.run_id }}
@@ -52,11 +53,13 @@ jobs:
 
     - name: ⬇️ Install dependencies
       run: |
-        python -Im pip install --upgrade pip setuptools wheel
-        python -Im pip install --upgrade tox tox-gh-actions
+        python -Im pip install --upgrade pip setuptools wheel flit tox tox-gh-actions
+
+    - name: 🏗️ Build wheel
+      run: python -Im flit build --format wheel
 
     - name: 🧪 Run tox targets for Python ${{ matrix.python-version }}
-      run: tox
+      run: tox --installpkg ./dist/*.whl
 
     - name: ⬆️ Upload coverage data
       uses: actions/upload-artifact@v3
@@ -72,8 +75,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
       - uses: actions/setup-python@v4
         with:
           # Use latest Python, so it understands all syntax.
