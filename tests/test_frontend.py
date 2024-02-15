@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.test import TestCase, override_settings
+from django.test import RequestFactory, TestCase, override_settings
 from django.urls import reverse
 from django.utils.http import urlencode
 from wagtail.models import Page
@@ -29,6 +29,8 @@ class TestFrontendViews(TestCase):
 
         cls.page.title = "Simple page with draft edit"
         cls.page.save_revision()
+
+        cls.request = RequestFactory().get("/")
 
     def setUp(self):
         self.client.login(username=self.admin_user.username, password="password")
@@ -77,7 +79,7 @@ class TestFrontendViews(TestCase):
 
         self.assertRedirects(
             response,
-            self.page.get_preview_url(preview_token),
+            self.page.get_preview_url(self.request, preview_token),
             fetch_redirect_response=False,
         )
 
@@ -86,7 +88,7 @@ class TestFrontendViews(TestCase):
     )
     def test_get_client_root_url_with_default_trailing_slash_enforcement(self):
         self.assertEqual(
-            self.page.get_client_root_url(),
+            self.page.get_client_root_url(self.request),
             "https://headless.site/",
         )
 
@@ -98,7 +100,7 @@ class TestFrontendViews(TestCase):
     )
     def test_get_client_root_url_without_trailing_slash_enforcement(self):
         self.assertEqual(
-            self.page.get_client_root_url(),
+            self.page.get_client_root_url(self.request),
             "https://headless.site",
         )
 
