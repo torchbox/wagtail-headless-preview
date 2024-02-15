@@ -3,10 +3,10 @@ from django.test import TestCase, override_settings
 from django.urls import reverse
 from django.utils.http import urlencode
 from wagtail.models import Page
-from wagtail_headless_preview.models import PagePreview
-from wagtail_headless_preview.settings import headless_preview_settings
 
 from tests.testapp.models import HeadlessPage, SimplePage
+from wagtail_headless_preview.models import PagePreview
+from wagtail_headless_preview.settings import headless_preview_settings
 
 
 class TestFrontendViews(TestCase):
@@ -17,7 +17,7 @@ class TestFrontendViews(TestCase):
         cls.admin_user = User.objects.create_superuser(
             username="admin",
             email="admin@example.com",
-            password="password",  # noqa: S106
+            password="password",
         )
 
         cls.homepage = Page.objects.get(url_path="/home/").specific
@@ -31,9 +31,7 @@ class TestFrontendViews(TestCase):
         cls.page.save_revision()
 
     def setUp(self):
-        self.client.login(
-            username=self.admin_user.username, password="password"  # noqa: S106
-        )
+        self.client.login(username=self.admin_user.username, password="password")
 
     def test_view(self):
         self.assertEqual(PagePreview.objects.count(), 0)
@@ -122,7 +120,7 @@ class TestHeadlessRedirectMixin(TestCase):
         cls.admin_user = User.objects.create_superuser(
             username="admin",
             email="admin@example.com",
-            password="password",  # noqa: S106
+            password="password",
         )
 
         cls.homepage = Page.objects.get(url_path="/home/").specific

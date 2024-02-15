@@ -5,7 +5,7 @@ DEBUG = "INTERACTIVE" in os.environ
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-SECRET_KEY = "fake_secret_key_to_run_tests"  # noqa: S105
+SECRET_KEY = "fake_secret_key_to_run_tests"
 
 INSTALLED_APPS = [
     "tests.testapp",
