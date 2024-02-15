@@ -2,7 +2,6 @@
 
 [![Build status](https://img.shields.io/github/actions/workflow/status/torchbox/wagtail-headless-preview/test.yml)](https://github.com/torchbox/wagtail-headless-preview/actions)
 [![PyPI](https://img.shields.io/pypi/v/wagtail-headless-preview.svg)](https://pypi.org/project/wagtail-headless-preview/)
-[![black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/torchbox/wagtail-headless-preview/main.svg)](https://results.pre-commit.ci/latest/github/torchbox/wagtail-headless-preview/main)
 
