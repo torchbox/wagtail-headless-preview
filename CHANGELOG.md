@@ -7,11 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8] - 2025-02-23
+
 ### Changed
 
-- Drop versions of Wagtail < 5.2
-- Add Wagtail 6.0 support
-- Add Django 5.0 support
+- Drop official support for Wagtail < 5.2 (but allow installation with >= 4.1)
+- Add Wagtail 6.0 and Django 5.0 to the test matrix [#62](https://github.com/torchbox/wagtail-headless-preview/pull/62) Thanks @katdom13
+- Update the various GitHub Actions, and switch to ruff for linting and formatting.
+- Make `get_client_root_url` overridable in both mixins [#59](https://github.com/torchbox/wagtail-headless-preview/pull/59)
+  Note: if you've customised it in your page models, please update your code to add the `request` parameter
 
 ## [0.7] - 2023-10-20
 
