@@ -131,7 +131,8 @@ WAGTAIL_HEADLESS_PREVIEW = {
 
 Initial release
 
-[unreleased]: https://github.com/torchbox/wagtail-headless-preview/compare/v0.7.0...HEAD
+[unreleased]: https://github.com/torchbox/wagtail-headless-preview/compare/v0.8.0...HEAD
+[0.8]: https://github.com/torchbox/wagtail-headless-preview/compare/v0.7.0...v0.8.0
 [0.7]: https://github.com/torchbox/wagtail-headless-preview/compare/v0.6.0...v0.7.0
 [0.6]: https://github.com/torchbox/wagtail-headless-preview/compare/v0.5.0...v0.6.0
 [0.5]: https://github.com/torchbox/wagtail-headless-preview/compare/v0.4.0...v0.5.0
