@@ -9,7 +9,7 @@ from wagtail_headless_preview.models import PagePreview
 from wagtail_headless_preview.settings import headless_preview_settings
 
 
-class TestFrontendViews(TestCase):
+class TestMixins(TestCase):
     fixtures = ["test.json"]
 
     @classmethod
@@ -29,6 +29,11 @@ class TestFrontendViews(TestCase):
 
         cls.page.title = "Simple page with draft edit"
         cls.page.save_revision()
+
+        cls.headless_page = HeadlessPage(
+            title="Headless page original", slug="headless-page"
+        )
+        cls.homepage.add_child(instance=cls.headless_page)
 
         cls.request = RequestFactory().get("/")
 
@@ -104,6 +109,16 @@ class TestFrontendViews(TestCase):
             "https://headless.site",
         )
 
+    @override_settings(
+        WAGTAIL_HEADLESS_PREVIEW={"SERVE_BASE_URL": "https://headless.site"},
+        TEST_OVERRIDE_CLIENT_ROOT_URL=True,
+    )
+    def test_get_client_root_url_override_in_implementing_page(self):
+        self.assertEqual(
+            self.headless_page.get_client_root_url(self.request),
+            "https://wagtail.org",
+        )
+
     def test_create_page_preview_race(self):
         self.page.create_page_preview()
 
@@ -113,36 +128,22 @@ class TestFrontendViews(TestCase):
         # This shouldn't hit a unique constraint error
         self.page.create_page_preview()
 
-
-class TestHeadlessRedirectMixin(TestCase):
-    fixtures = ["test.json"]
-
-    @classmethod
-    def setUpTestData(cls):
-        cls.admin_user = User.objects.create_superuser(
-            username="admin",
-            email="admin@example.com",
-            password="password",
-        )
-
-        cls.homepage = Page.objects.get(url_path="/home/").specific
-        cls.page = HeadlessPage(title="Simple page original", slug="simple-page")
-        cls.homepage.add_child(instance=cls.page)
-
-    def test_serve(self):
+    def test_headless_serve_mixin_redirects_in_serve(self):
         client_url = headless_preview_settings.CLIENT_URLS["default"].rstrip("/")
-        response = self.client.get(self.page.url)
+        response = self.client.get(self.headless_page.url)
         self.assertRedirects(
-            response, f"{client_url}/{self.page.slug}/", fetch_redirect_response=False
+            response,
+            f"{client_url}/{self.headless_page.slug}/",
+            fetch_redirect_response=False,
         )
 
     @override_settings(
         WAGTAIL_HEADLESS_PREVIEW={"SERVE_BASE_URL": "https://headless.site"}
     )
-    def test_serve_with_headless_serve_base_url(self):
-        response = self.client.get(self.page.url)
+    def test_headless_serve_mixin_serve_with_headless_serve_base_url(self):
+        response = self.client.get(self.headless_page.url)
         self.assertRedirects(
             response,
-            f"https://headless.site/{self.page.slug}/",
+            f"https://headless.site/{self.headless_page.slug}/",
             fetch_redirect_response=False,
         )
