@@ -15,7 +15,8 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - run: python -Im pip install --user ruff
+    # Keep in sync with .pre-commit-config.yaml
+    - run: python -Im pip install --user ruff==0.4.4
 
     - name: Run ruff
       working-directory: ./src

@@ -10,6 +10,7 @@ WAGTAIL_HEADLESS_PREVIEW = {
 This module provides the `headless_preview_settings` object, that is used to access
 the settings. It checks for user settings first, with fallback to defaults.
 """
+
 import warnings
 
 from django.conf import settings
