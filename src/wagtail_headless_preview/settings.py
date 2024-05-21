@@ -58,9 +58,7 @@ class WagtailHeadlessPreviewSettings:
 
     def __getattr__(self, attr):
         if attr not in self.defaults:
-            raise AttributeError(
-                "Invalid wagtail_headless_preview setting: '%s'" % attr
-            )
+            raise AttributeError(f"Invalid wagtail_headless_preview setting: '{attr}'")
 
         try:
             # Check if present in user settings
