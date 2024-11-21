@@ -18,7 +18,7 @@ env:
   TOX_TESTENV_PASSENV: FORCE_COLOR
   PIP_DISABLE_PIP_VERSION_CHECK: "1"
   PIP_NO_PYTHON_VERSION_WARNING: "1"
-  PYTHON_LATEST: "3.12"
+  PYTHON_LATEST: "3.13"
 
 jobs:
   tests:
@@ -67,6 +67,7 @@ jobs:
         name: coverage-data-${{ matrix.python-version }}
         path: .coverage.*
         if-no-files-found: ignore
+        include-hidden-files: true
         retention-days: 1
 
   coverage:
