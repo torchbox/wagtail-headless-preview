@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Add tox testing for Django 5.1 and Wagtail 6.2 + 6.3
+- Drop testing for Python 3.8
+
 ## [0.8] - 2024-02-23
 
 ### Changed
