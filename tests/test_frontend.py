@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.test import RequestFactory, TestCase, override_settings
 from django.urls import reverse
 from django.utils.http import urlencode
-from wagtail.models import Page
+from wagtail.models import Page, Site
 
 from tests.testapp.models import HeadlessPage, SimplePage
 from wagtail_headless_preview.models import PagePreview
@@ -107,6 +107,18 @@ class TestMixins(TestCase):
         self.assertEqual(
             self.page.get_client_root_url(self.request),
             "https://headless.site",
+        )
+
+    @override_settings(
+        WAGTAIL_HEADLESS_PREVIEW={
+            "CLIENT_URLS": {"default": "https://headless.site"},
+        }
+    )
+    def test_get_client_root_url_with_no_site(self):
+        Site.objects.all().delete()
+        self.assertEqual(
+            self.page.get_client_root_url(self.request),
+            "https://headless.site/",
         )
 
     @override_settings(
