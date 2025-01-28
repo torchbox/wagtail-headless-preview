@@ -50,7 +50,7 @@ def get_client_root_url_from_site(site) -> str:
         root_url = headless_preview_settings.CLIENT_URLS[site.hostname]
     except (AttributeError, KeyError):
         root_url = headless_preview_settings.CLIENT_URLS["default"].format(
-            SITE_ROOT_URL=site.root_url
+            SITE_ROOT_URL=getattr(site, "root_url", "")
         )
 
     if headless_preview_settings.ENFORCE_TRAILING_SLASH:

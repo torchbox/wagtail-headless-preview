@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add tox testing for Django 5.1 and Wagtail 6.2 + 6.3
 - Drop testing for Python 3.8
+- Fix `get_client_root_url` when no Site is set
 
 ## [0.8] - 2024-02-23
 
