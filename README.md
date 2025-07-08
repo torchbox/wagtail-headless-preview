@@ -51,7 +51,7 @@ Then configure the preview client URL using the `CLIENT_URLS` option in the `WAG
 WAGTAIL_HEADLESS_PREVIEW = {
     "CLIENT_URLS": {},  # defaults to an empty dict. You must at the very least define the default client URL.
     "SERVE_BASE_URL": None,  # can be used for HeadlessServeMixin
-    "REDIRECT_ON_PREVIEW": False,  # set to True to redirect to the preview instead of using the Wagtail default mechanism
+    "REDIRECT_ON_PREVIEW": False,  # set to True to redirect to the client URL instead of using an iframe
     "ENFORCE_TRAILING_SLASH": True,  # set to False in order to disable the trailing slash enforcement
 }
 ```
@@ -125,6 +125,24 @@ WAGTAIL_HEADLESS_PREVIEW = {
     "ENFORCE_TRAILING_SLASH": False
 }
 ```
+
+### Redirect vs. iframe
+
+By default, the preview will render an iframe with the front-end URL. This means that the live preview panel will be displayed using an iframe nested within Wagtail's default preview iframe. Prior to Wagtail 7.1, this was necessary if the frontend is hosted on a separate domain, as the preview panel did not properly handle cross-origin iframes.
+
+If you are using Wagtail 7.1+, it is highly recommended to use a redirect to the frontend URL instead of a nested iframe, regardless whether the frontend is hosted on the same domain or not. This allows Wagtail to enable scroll restoration and other integrations within the page editor. This can be enabled by setting `REDIRECT_ON_PREVIEW` to `True`:
+
+```python
+# settings.py
+WAGTAIL_HEADLESS_PREVIEW = {
+    # ...
+    "REDIRECT_ON_PREVIEW": True,
+}
+```
+
+### User bar and accessibility checker
+
+If the Wagtail userbar is loaded in the front-end, Wagtail's page editor can restore the scroll position when the preview is updated, as well as enable other integrations such as the accessibility checker and content metrics. See Wagtail's documentation on enabling [the user bar](https://docs.wagtail.org/en/latest/advanced_topics/headless.html#headless-user-bar) and [the accessibility checker](https://docs.wagtail.org/en/latest/advanced_topics/headless.html#headless-accessibility-checker) on headless setups for more information. This requires Wagtail 7.1+ and the `REDIRECT_ON_PREVIEW` setting set to `True`.
 
 ## Usage
 
