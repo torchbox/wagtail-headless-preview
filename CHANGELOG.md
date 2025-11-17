@@ -7,8 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-- Add tox testing for Wagtail 6.3, 6.4 and 7.0, Django 5.1, 5.2
-- Drop testing for Wagtail 5.2, Django 5.0, Python 3.8
+Wagtail 7.0 and 7.1 upgrade changes:
+
+- Add tox testing for Django 5.2 and Wagtail 7.0, 7.1
+- Drop testing for Django 5.0
+- Drop testing for Wagtail 5.2 and 6.4
+
+Wagtail 6.3 upgrade changes:
+
+- Add tox testing for Django 5.1 and Wagtail 6.3
+- Drop testing for Python 3.8
 
 ## [0.8] - 2024-02-23
 

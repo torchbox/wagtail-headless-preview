@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+
 import argparse
 import os
 import sys
@@ -7,6 +8,8 @@ import warnings
 from django.core.management import execute_from_command_line
 
 
+# Ensure the tests directory is in sys.path for Django import
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 os.environ["DJANGO_SETTINGS_MODULE"] = "tests.settings"
 
 
