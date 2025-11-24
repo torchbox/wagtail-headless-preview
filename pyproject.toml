@@ -31,7 +31,7 @@ classifiers = [
 ]
 
 dynamic = ["version"]
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 dependencies = ["Wagtail>=6.3"]
 
 [project.optional-dependencies]
