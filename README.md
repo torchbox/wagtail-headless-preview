@@ -334,8 +334,8 @@ Now you can run tests as shown below:
 tox -p
 ```
 
-or, you can run them for a specific environment `tox -e py311-django4.2-wagtail5.1` or specific test
-`tox -e py311-django4.2-wagtail5.0 -- wagtail_headless_preview.tests.test_frontend.TestFrontendViews.test_redirect_on_preview`
+or, you can run them for a specific environment `tox -e python3.13-django5.2-wagtail7.4` or specific test
+`tox -e python3.13-django5.2-wagtail7.4 -- wagtail_headless_preview.tests.test_frontend.TestFrontendViews.test_redirect_on_preview`
 
 ## Credits
 

@@ -13,7 +13,6 @@ classifiers = [
     "License :: OSI Approved :: BSD License",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -23,8 +22,8 @@ classifiers = [
     "Framework :: Django :: 4.2",
     "Framework :: Django :: 5.1",
     "Framework :: Django :: 5.2",
+    "Framework :: Django :: 6.0",
     "Framework :: Wagtail",
-    "Framework :: Wagtail :: 6",
     "Framework :: Wagtail :: 7",
     "Topic :: Internet :: WWW/HTTP",
     "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
@@ -32,7 +31,7 @@ classifiers = [
 
 dynamic = ["version"]
 requires-python = ">=3.10"
-dependencies = ["Wagtail>=6.3"]
+dependencies = ["Wagtail>=7.0"]
 
 [project.optional-dependencies]
 testing = [
