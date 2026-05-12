@@ -20,4 +20,4 @@ jobs:
 
     - name: Run ruff
       working-directory: ./src
-      run: ruff --output-format=github wagtail_headless_preview
+      run: ruff check --output-format=github wagtail_headless_preview
