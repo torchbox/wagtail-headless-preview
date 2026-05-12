@@ -15,7 +15,7 @@
         "path": "0001",
         "url_path": "/",
         "slug": "root",
-        "locale": ["en"]
+        "locale": 1
     }
 },
 
@@ -32,7 +32,7 @@
         "path": "00010001",
         "url_path": "/home/",
         "slug": "home",
-        "locale": ["en"]
+        "locale": 1
     }
 },
 
