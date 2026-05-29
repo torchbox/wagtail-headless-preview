@@ -10,16 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Added
 
 - Add support for Python 3.14
-- Add support for Django 5.2 LTS and Django 6.0
-- Add support for Wagtail 7.0 LTS, 7.3, and 7.4 LTS
+- Add support for Wagtail 7.0 LTS, 7.3, 7.4 LTS and Django 5.2 LTS, Django 6.0
 
 ## Removed
 
-- Drop support for Python < 3.10
-- Drop support for Wagtail < 6.3
+- Drop support for Python < 3.10, Wagtail < 6.3, Python 3.9 and Django 5.0
 - Drop testing for Python 3.8
-- Drop support for Python 3.9 (EOL 2025-10-31)
-- Drop support for Wagtail < 7.0 and Django 5.0 (both out of upstream support)
 
 ## [0.8] - 2024-02-23
 
