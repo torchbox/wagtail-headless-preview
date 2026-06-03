@@ -89,7 +89,7 @@ class HeadlessPreviewMixin(HeadlessBase):
                 content_type=content_type, token=token
             ).as_page()
         except PagePreview.DoesNotExist:
-            return
+            return None
 
     def update_page_preview(self, token: str) -> PagePreview:
         return PagePreview.objects.update_or_create(
@@ -122,7 +122,7 @@ class HeadlessPreviewMixin(HeadlessBase):
             + urlencode({"content_type": self.get_content_type_str(), "token": token})
         )
 
-    def serve_preview(self, request: "HttpRequest", preview_mode):
+    def serve_preview(self, request: "HttpRequest", preview_mode: str):
         PagePreview.garbage_collect()
         page_preview = self.create_page_preview()
         page_preview.save()
