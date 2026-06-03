@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 concurrency:
-  group: ${{ github.head_ref || github.run_id }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 permissions:
@@ -30,53 +30,81 @@ jobs:
         python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
 
     steps:
-    - uses: actions/checkout@v4
+      - name: Harden Runner
+        uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411  # v2.19.4
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            files.pythonhosted.org:443
+            objects.githubusercontent.com:443
+            github.com:443
+            pypi.org:443
+            api.github.com:443
 
-    - name: 🐍 Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v5
-      with:
-        python-version: ${{ matrix.python-version }}
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
+        with:
+          persist-credentials: false
 
-    - name: 🌍 Start dummy client
-      uses: Eun/http-server-action@v1
-      with:
-        directory: ${{ github.workspace }}/wagtail_headless_preview/tests/client
-        port: 8020
-        no-cache: false
-        content-types: |
-          {
-            "html": "text/html",
-            "js": "text/javascript",
-            "json": "application/json",
-            "txt": "text/plain"
-          }
+      - name: 🐍 Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405  # v6.2.0
+        with:
+          python-version: ${{ matrix.python-version }}
 
-    - name: ⬇️ Install dependencies
-      run: |
-        python -Im pip install --upgrade pip setuptools wheel flit tox tox-gh-actions
+      - name: 🌍 Start dummy client
+        uses: Eun/http-server-action@dadebd209d4a902eeefceb524c24c38b364c46a7  # v1.0.13
+        with:
+          directory: ${{ github.workspace }}/wagtail_headless_preview/tests/client
+          port: 8020
+          no-cache: false
+          content-types: |
+            {
+              "html": "text/html",
+              "js": "text/javascript",
+              "json": "application/json",
+              "txt": "text/plain"
+            }
 
-    - name: 🏗️ Build wheel
-      run: python -Im flit build --format wheel
+      - name: ⬇️ Install dependencies
+        run: |
+          python -Im pip install --upgrade pip setuptools wheel flit tox tox-gh-actions
 
-    - name: 🧪 Run tox targets for Python ${{ matrix.python-version }}
-      run: tox --installpkg ./dist/*.whl
+      - name: 🏗️ Build wheel
+        run: python -Im flit build --format wheel
 
-    - name: ⬆️ Upload coverage data
-      uses: actions/upload-artifact@v4
-      with:
-        name: coverage-data-${{ matrix.python-version }}
-        path: .coverage.*
-        if-no-files-found: ignore
-        include-hidden-files: true
-        retention-days: 1
+      - name: 🧪 Run tox targets for Python ${{ matrix.python-version }}
+        run: tox --installpkg ./dist/*.whl
+
+      - name: ⬆️ Upload coverage data
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
+        with:
+          name: coverage-data-${{ matrix.python-version }}
+          path: .coverage.*
+          if-no-files-found: ignore
+          include-hidden-files: true
+          retention-days: 1
 
   coverage:
+    name: Combine & check coverage.
     runs-on: ubuntu-latest
     needs: tests
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Harden Runner
+        uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411  # v2.19.4
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            files.pythonhosted.org:443
+            objects.githubusercontent.com:443
+            github.com:443
+            pypi.org:443
+            api.github.com:443
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405  # v6.2.0
         with:
           # Use latest Python, so it understands all syntax.
           python-version: ${{env.PYTHON_LATEST}}
@@ -84,7 +112,7 @@ jobs:
       - run: python -Im pip install --upgrade coverage[toml]
 
       - name: Download coverage data
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c  # v8.0.1
         with:
           pattern: coverage-data-*
           merge-multiple: true
@@ -98,7 +126,7 @@ jobs:
           python -Im coverage report --format=markdown >> $GITHUB_STEP_SUMMARY
 
       - name: 📈 Upload HTML report if check failed.
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
         with:
           name: html-report
           path: htmlcov
